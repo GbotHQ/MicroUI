@@ -3,9 +3,8 @@
  
  See `./demo` for example usage
  
-## Requirements
-* futhark
-#### Demo requirements
+## Demo requirements
+* futhark - see https://github.com/PMunch/futhark?tab=readme-ov-file#installation for installation instructions
 * GLFW - see https://www.glfw.org/download.html
 * Glad - included in `./demo`
 
