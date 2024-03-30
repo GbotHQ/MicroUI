@@ -4,8 +4,8 @@
  See `./demo` for example usage
  
 ## Requirements
--- futhark
+* futhark
 #### Demo requirements
--- GLFW - see https://www.glfw.org/download.html
--- Glad - included in `./demo`
+* GLFW - see https://www.glfw.org/download.html
+* Glad - included in `./demo`
 
