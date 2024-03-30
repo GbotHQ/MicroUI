@@ -3,10 +3,17 @@
  
  See [`demo`](demo) for example usage
  
-## Demo requirements
+## Demo
+
+### Requirements
 * futhark - see https://github.com/PMunch/futhark?tab=readme-ov-file#installation for installation instructions
 * GLFW - see https://www.glfw.org/download.html
 * Glad - included in [`demo`](demo)
+
+### Usage
+```bash
+nim c -r demo/demo.nim
+```
 
 ## Features
 * Works within a fixed-sized memory region: no additional memory is allocated
