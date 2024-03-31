@@ -30,8 +30,6 @@ else:
 {.passC: gorge("pkg-config --cflags glfw3").}
 
 {.passl: gorge("pkg-config --static --libs glfw3").}
-{.passl: gorge("sdl2-config --libs").}
-{.passl: "-lGL".}
 
 
 type
