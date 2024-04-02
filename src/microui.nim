@@ -641,7 +641,7 @@ proc layoutRow*(ctx: Ctx, items: int32, widths: openArray[int32], height: int32)
   let layout = ctx.getLayout
   if widths.len > 0:
     assert items <= MaxWidths
-    copyMem(layout.widths[0].addr, widths[0].addr, items * sizeof(widths[0]))
+    layout.widths[0..<items] = widths[0..<items]
   layout.items = items
   layout.position = vec2(layout.indent, layout.nextRow)
   layout.size.y = height
@@ -875,7 +875,7 @@ proc checkbox*(ctx: Ctx, label: cstring, state: var int32): bool {.discardable.}
   ctx.drawControlText(label, r, Colors.Text)
 
 proc textboxRaw*(ctx: Ctx, buf: var cstring, maxSize: int32, id: Id, rect: Rect, opt: OptionSet = {}): Result {.discardable.} =
-  ctx.updateControl(id, rect, cast[OptionSet](opt) + Option.HoldFocus)
+  ctx.updateControl(id, rect, opt + Option.HoldFocus)
 
   if ctx.focus == id:
     # handle text input
@@ -920,7 +920,7 @@ proc numberTextBox(ctx: Ctx, value: var cfloat, r: Rect, id: Id): bool =
     Key.Shift in ctx.keyDown and
     ctx.hover == id:
     ctx.numberEdit = id
-    let s = $value
+    let s = cstring $value
     copyMem(addr ctx.numberEditBuf[0], s[0].unsafeAddr, min(s.len, ctx.numberEditBuf.len))
   if ctx.numberEdit == id:
     assert ctx.numberEditBuf.len == 127

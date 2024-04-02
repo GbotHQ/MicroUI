@@ -259,7 +259,12 @@ proc drawText*(text: cstring, pos: Vec2, color: Color) =
   for p in text:
     if (p.uint8 and 0xc0) == 0x80:
       continue
-    let src = atlasRects[Atlas.Font.int32 + min(p.uint8, 127).int32]
+    let idx = Atlas.Font.int32 + min(p.uint8, 127).int32
+    let src =
+      if idx in atlasRects:
+        atlasRects[idx]
+      else:
+        rect(0, 0, 0, 0)
     dst.w = src.w
     dst.h = src.h
     pushQuad(dst, src, color)
