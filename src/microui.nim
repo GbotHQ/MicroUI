@@ -593,6 +593,12 @@ proc getId*(ctx: Ctx, data: ptr, size: int32): Id =
   ctx.lastId = res
   res
 
+proc getId*(ctx: Ctx, data: ptr): Id =
+  ctx.getId(data, data[].sizeof.int32)
+
+proc getId*(ctx: Ctx, data: cstring): Id =
+  ctx.getId(addr data[0], data.len.int32)
+
 proc pushId*(ctx: Ctx, data: ptr, size: int32) =
   ctx.idStack.push ctx.getId(data, size)
 
@@ -622,7 +628,7 @@ proc getContainerBase(ctx: Ctx, id: Id, opt: OptionSet): Container =
 
 proc getContainer*(ctx: Ctx, name: cstring): Container =
   ctx.getContainerBase(
-    ctx.getId(addr name[0], name.len.int32), {}
+    ctx.getId(name), {}
   )
 
 # layout
@@ -843,9 +849,9 @@ proc lmbDown(ctx: Ctx): bool =
 proc button*(ctx: Ctx, label: cstring, icon = int32 0, opt = Option.AlignCenter.toSet): bool {.discardable.} =  
   var id: Id
   if not label.isNil:
-    id = ctx.getId(addr label[0], label.len.int32)
+    id = ctx.getId(label)
   else:
-    id = ctx.getId(addr icon, icon.sizeof.int32)
+    id = ctx.getId(addr icon)
   let rect = ctx.layoutNext
   ctx.updateControl(id, rect, opt)
   # handle click
@@ -860,7 +866,7 @@ proc button*(ctx: Ctx, label: cstring, icon = int32 0, opt = Option.AlignCenter.
 
 proc checkbox*(ctx: Ctx, label: cstring, state: var int32): bool {.discardable.} =
   let stateAddr = addr state
-  let id = ctx.getId(addr stateAddr, state.addr.sizeof.int32)
+  let id = ctx.getId(addr stateAddr)
   var r = ctx.layoutNext
   let box = rect(r.x, r.y, r.h, r.h)
   ctx.updateControl(id, r)
@@ -934,7 +940,7 @@ proc numberTextBox(ctx: Ctx, value: var cfloat, r: Rect, id: Id): bool =
       result = true
 
 proc textbox*(ctx: Ctx, buf: var cstring, maxSize: int32, opt: OptionSet = {}): Result {.discardable.} =
-  let id = ctx.getId(addr buf, sizeof(buf).int32)
+  let id = ctx.getId(addr buf)
   let r = ctx.layoutNext
   ctx.textboxRaw(buf, maxSize, id, r, opt)
 
@@ -951,7 +957,7 @@ proc remap(value, low1, high1, low2, high2: cfloat): cfloat =
 proc slider*(ctx: Ctx, value: var cfloat, low, high: cfloat, step: cfloat = 0, fmtPrecision = 2, fmt = ffDecimal, opt = Option.AlignCenter.toSet): bool {.discardable.} =
   let last = value
   let valueAddr = addr value
-  let id = ctx.getId(addr valueAddr, sizeof(value).int32)
+  let id = ctx.getId(addr valueAddr)
   let base = ctx.layoutNext
 
   var v = last
@@ -989,7 +995,7 @@ proc slider*(ctx: Ctx, value: var cfloat, low, high: cfloat, step: cfloat = 0, f
 
 proc number*(ctx: Ctx, value: var cfloat, step: cfloat, fmtPrecision = 2, fmt = ffDecimal, opt = Option.AlignCenter.toSet): bool {.discardable.} =
   let valueAddr = addr value
-  let id = ctx.getId(addr valueAddr, sizeof(valueAddr).int32)
+  let id = ctx.getId(addr valueAddr)
   let base = ctx.layoutNext
   var last = value
 
@@ -1016,7 +1022,7 @@ proc number*(ctx: Ctx, value: var cfloat, step: cfloat, fmtPrecision = 2, fmt = 
 proc headerBase*(ctx: Ctx, label: cstring, isTreeNode: bool, opt: OptionSet): bool =
   var r: Rect
   var active, expanded: bool
-  let id = ctx.getId(addr label[0], label.len.int32)
+  let id = ctx.getId(label)
   let idx = ctx.getPool(cast[ptr PoolItem](addr ctx.treenodePool[0]), TreenodePoolSize, id)
   ctx.layoutRow(1, [int32 -1], 0)
 
@@ -1107,8 +1113,7 @@ proc scrollBarY(ctx: Ctx, cnt: Container, body: ptr Rect, contentSize: Vec2) =
   # only add scrollbar if content size is larger than body
   let maxScroll = contentSize.y - body.h
   if maxScroll > 0 and body.h > 0:
-    let tmpstr = cstring "!scrollBarY"
-    let id = ctx.getId(addr tmpstr[0], 11)
+    let id = ctx.getId(cstring "!scrollBarY")
 
     # get sizing / positioning
     var base = body[]
@@ -1141,8 +1146,7 @@ proc scrollBarX(ctx: Ctx, cnt: Container, body: ptr Rect, contentSize: Vec2) =
   # only add scrollbar if content size is larger than body
   let maxScroll = contentSize.x - body.w
   if maxScroll > 0 and body.w > 0:
-    let tmpstr = cstring "!scrollBarX"
-    let id = ctx.getId(addr tmpstr[0], 11)
+    let id = ctx.getId(cstring "!scrollBarX")
 
     # get sizing / positioning
     var base = body[]
@@ -1195,7 +1199,7 @@ proc pushContainerBody(ctx: Ctx, cnt: Container, body: Rect, opt: OptionSet): vo
   cnt.body = body
 
 proc beginWindow*(ctx: Ctx, title: cstring, rect: Rect, opt: OptionSet = {}): bool =
-  var id = ctx.getId(addr title[0], int32 title.len)
+  var id = ctx.getId(title)
   var cnt = ctx.getContainerBase(id, opt)
   if cnt.isNil or not cnt.open:
     return false
@@ -1219,8 +1223,7 @@ proc beginWindow*(ctx: Ctx, title: cstring, rect: Rect, opt: OptionSet = {}): bo
 
     # draw title text
     if Option.NoTitle notin opt:
-      let titlestr = cstring "!title"
-      var id = ctx.getId(addr titlestr[0], 6)
+      var id = ctx.getId(cstring "!title")
       ctx.updateControl(id, tr, opt)
       ctx.drawControlText(title, tr, Colors.TitleText, opt)
       if id == ctx.focus and ctx.lmbDown:
@@ -1231,8 +1234,7 @@ proc beginWindow*(ctx: Ctx, title: cstring, rect: Rect, opt: OptionSet = {}): bo
 
     # draw `close` button
     if Option.NoClose notin opt:
-      let closestr = cstring "!close"
-      var id = ctx.getId(addr closestr[0], 6)
+      var id = ctx.getId(cstring "!close")
       var r = rect(tr.x + tr.w - tr.h, tr.y, tr.h, tr.h)
       tr.w -= r.w
       ctx.drawIcon(Icon.Close.int32, r, ctx.style.colors[Colors.TitleText.int])
@@ -1245,8 +1247,7 @@ proc beginWindow*(ctx: Ctx, title: cstring, rect: Rect, opt: OptionSet = {}): bo
   # draw `resize` handle
   if Option.NoResize notin opt:
     var sz = ctx.style.titleHeight
-    let resizestr = "!resize".cstring
-    var id = ctx.getId(addr resizestr[0], 7)
+    var id = ctx.getId(cstring "!resize")
     var r = rect(rec.x + rec.w - sz, rec.y + rec.h - sz, sz, sz)
     ctx.updateControl(id, r, opt)
     if ctx.lmbDown and id == ctx.focus:
