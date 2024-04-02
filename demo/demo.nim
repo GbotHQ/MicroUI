@@ -6,7 +6,7 @@ import microui_renderer
 
 var ctx: Ctx
 
-let uiColors: Table[system.cstring, ni.Colors] = {
+let uiColors = {
   cstring "text:": Colors.Text,
   "border:": Colors.Border,
   "windowbg:": Colors.Windowbg,
@@ -39,11 +39,10 @@ proc logWindow(ctx: Ctx) =
   if not ctx.beginWindow("Log Window", rect(350, 40, 300, 200)):
     return
   # output text panel
-  let textBoxWidths = [int32 -1]
-  ctx.layoutRow(1, textBoxWidths, -25)
+  ctx.layoutRow(1, [int32 -1], -25)
   ctx.beginPanel("Log Output")
   let panel = ctx.getCurrentContainer
-  ctx.layoutRow(1, textBoxWidths, -1)
+  ctx.layoutRow(1, [int32 -1], -1)
   ctx.text(cstring logBuf)
   ctx.endPanel
   if logUpdated:
@@ -51,8 +50,7 @@ proc logWindow(ctx: Ctx) =
     logUpdated = false
 
   var submitted = false
-  let widths = [int32 -70, -1]
-  ctx.layoutRow(2, widths, 0)
+  ctx.layoutRow(2, [int32 -70, -1], 0)
   if ctx.textbox(logTmp, logInputSize) == Result.Submit:
     ctx.setFocus(ctx.last_id)
     submitted = true
@@ -82,8 +80,7 @@ proc testWindow(ctx: Ctx) =
   # window info
   if ctx.header("Window Info"):
     let win = ctx.getCurrentContainer
-    let widths = [int32 54, -1]
-    ctx.layoutRow(2, widths, 0)
+    ctx.layoutRow(2, [int32 54, -1], 0)
     ctx.label("Position:")
     ctx.label(cstring fmt"{win.rect.x}, {win.rect.y}")
     ctx.label("Size:")
@@ -91,8 +88,7 @@ proc testWindow(ctx: Ctx) =
   
   # labels + buttons
   if ctx.header("Test Buttons", Option.Expanded.toSet):
-    let widths = [int32 86, -110, -1]
-    ctx.layoutRow(3, widths, 0)
+    ctx.layoutRow(3, [int32 86, -110, -1], 0)
     ctx.label("Test buttons 1:")
     if ctx.button("Button 1"):
       write "Pressed button 1"
@@ -181,8 +177,7 @@ proc styleWindow(ctx: Ctx) =
   if not ctx.beginWindow("Style Editor", rect(350, 250, 300, 240)):
     return
   let sw = int32 ctx.getCurrentContainer.body.w.float * 0.14
-  let widths = [int32 80, sw, sw, sw, sw, -1]
-  ctx.layoutRow(6, widths, 0)
+  ctx.layoutRow(6, [int32 80, sw, sw, sw, sw, -1], 0)
 
   for i, k, v in enumerate uiColors:
     ctx.label(k)
@@ -260,8 +255,6 @@ proc main() =
   glfwWindowHint(GLFW_SRGB_CAPABLE, GLFW_TRUE)
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0)
-  # glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
-  # glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
 
   var
     width: cint = 800
