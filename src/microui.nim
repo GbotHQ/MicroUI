@@ -1,4 +1,4 @@
-import std/[strutils, algorithm, enumerate, typetraits]
+import std/[strutils, algorithm, enumerate, typetraits, hashes]
 
 template push(stk: typed, item: typed) =
   assert stk.idx < stk.items.len
@@ -96,7 +96,7 @@ type
   
   KeySet = set[Key]
 
-  Id* = uint32
+  Id* = Hash
   Font* = pointer
 
   Vec2* = object
@@ -571,29 +571,24 @@ proc setFocus*(ctx: Ctx, id: Id) =
   ctx.focus = id
   ctx.updatedFocus = true
 
-# 32-bit FNV-1a hash
-const HashInitial = uint32 2166136261
+proc getParentId(ctx: Ctx): Id =
+  if ctx.idStack.idx > 0:
+    ctx.idStack.items[ctx.idStack.idx - 1]
+  else:
+    0
 
-proc hash(id: var Id, data: ptr, size: int) =
-  let dataArr = cast[ptr UncheckedArray[byte]](data)
-  for i in 0..<size:
-    id = (id xor dataArr[i]) * 16777619
-
-proc getId*(ctx: Ctx, data: ptr, size: int32): Id =
-  let idx = ctx.idStack.idx
-  var res: Id = if idx > 0: ctx.idStack.items[idx - 1] else: HashInitial
-  hash(res, data, size)
-  ctx.lastId = res
-  res
+proc getId*(ctx: Ctx, data: ptr, size: int): Id =
+  result = Id !$(ctx.getParentId !& data.hashData(size))
+  ctx.lastId = result
 
 proc getId*(ctx: Ctx, data: ptr): Id =
-  ctx.getId(data, data[].sizeof.int32)
+  ctx.getId(data, data[].sizeof)
 
 proc getId*(ctx: Ctx, data: cstring): Id =
   ctx.getId(addr data[0], data.len.int32)
 
-proc pushId*(ctx: Ctx, data: ptr, size: int32) =
-  ctx.idStack.push ctx.getId(data, size)
+proc pushId*[T](ctx: Ctx, data: T) =
+  ctx.idStack.push ctx.getId(data)
 
 proc popId*(ctx: Ctx) =
   ctx.idStack.pop
@@ -840,11 +835,11 @@ proc lmbDown(ctx: Ctx): bool =
   Mouse.Left in ctx.mouseDown
 
 proc button*(ctx: Ctx, label: cstring, icon = int32 0, opt = Option.AlignCenter.toSet): bool {.discardable.} =  
-  var id: Id
-  if not label.isNil:
-    id = ctx.getId(label)
-  else:
-    id = ctx.getId(addr icon)
+  let id =
+    if not label.isNil:
+      ctx.getId(label)
+    else:
+      ctx.getId(addr icon)
   let rect = ctx.layoutNext
   ctx.updateControl(id, rect, opt)
   # handle click
@@ -1286,7 +1281,7 @@ proc endPopup*(ctx: Ctx) =
   ctx.endWindow
 
 proc beginPanel*(ctx: Ctx, name: cstring, opt: OptionSet = {}) =
-  ctx.pushId(addr name[0], name.len.int32)
+  ctx.pushId name
   let cnt = ctx.getContainerBase(ctx.lastId, opt)
   cnt.rect = ctx.layoutNext
   if Option.NoFrame notin opt:

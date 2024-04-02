@@ -171,7 +171,7 @@ mi risus faucibus ipsum, eu varius magna felis a nulla.""".replace("\n", " "))
   ctx.endWindow
 
 proc uint8Slider(ctx: Ctx, value: ptr uint8, lowVal, highVal: int): bool {.discardable.} =
-  ctx.pushId(addr value, value.sizeof.int32)
+  ctx.pushId value.addr
   var tmp = cfloat value[]
   result = ctx.slider(tmp, cfloat lowVal, cfloat highVal, 0, 0)
   value[] = tmp.uint8
