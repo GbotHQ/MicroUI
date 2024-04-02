@@ -60,10 +60,7 @@ proc logWindow(ctx: Ctx) =
     submitted = true
   if submitted:
     write logTmp
-    # clear
-    # logTmp = ""
     logTmp[0] = '\0'
-    # logTmp = cstring newString(8)
 
   ctx.endWindow
 
@@ -74,11 +71,6 @@ var
   bgColR: cfloat = 90
   bgColG: cfloat = 95
   bgColB: cfloat = 100
-
-# proc setComp(x: var float) =
-#   x = x + 50
-
-# setComp bgCol[0]
 
 proc testWindow(ctx: Ctx) =
   if not ctx.beginWindow("Test Window", rect(40, 40, 300, 450)):
