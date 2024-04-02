@@ -393,15 +393,13 @@ proc nextCommand*(ctx: Ctx, cmd: ptr Command): bool =
     cmd[] = cast[Command](cmd.jump.dst)
 
 proc setClip*(ctx: Ctx, rect: Rect) =
-  var cmd: Command
-  cmd = ctx.pushCommand(Commands.Clip, int32 sizeof(ClipCommand))
+  let cmd = ctx.pushCommand(Commands.Clip, ClipCommand.sizeof.int32)
   cmd.clip.rect = rect
 
 proc drawRect*(ctx: Ctx, rect: Rect, color: Color) =
-  var cmd: Command
   let r = intersectRects(rect, ctx.getClipRect)
   if r.w > 0 and r.h > 0:
-    cmd = ctx.pushCommand(Commands.Rect, int32 sizeof(RectCommand))
+    let cmd = ctx.pushCommand(Commands.Rect, RectCommand.sizeof.int32)
     cmd.rect.rect = r
     cmd.rect.color = color
 
@@ -428,7 +426,7 @@ proc drawText*(ctx: Ctx, font: Font, str: cstring, len: int32, pos: Vec2, color:
       int32 str.len
     else:
       len
-  let cmd = ctx.pushCommand(Commands.Text, sizeof(TextCommand).int32 + length)
+  let cmd = ctx.pushCommand(Commands.Text, TextCommand.sizeof.int32 + length)
   copyMem(addr cmd.text.str[0], addr str[0], length)
   let nullTer = cstring "\0"
   copyMem(cast[ptr cschar](cast[int](addr cmd.text.str) + length), addr nullTer[0], 1)
@@ -440,7 +438,6 @@ proc drawText*(ctx: Ctx, font: Font, str: cstring, len: int32, pos: Vec2, color:
     ctx.setClip(unclippedRect)
 
 proc drawIcon*(ctx: Ctx, id: int32, rect: Rect, color: Color) =
-  var cmd: Command
   # do clip command if the rect isn't fully contained within the cliprect
   let clipped = ctx.checkClip(rect)
   case clipped
@@ -450,7 +447,7 @@ proc drawIcon*(ctx: Ctx, id: int32, rect: Rect, color: Color) =
     ctx.setClip(ctx.getClipRect)
   else: discard
   # do icon command
-  cmd = ctx.pushCommand(Commands.Icon, sizeof(IconCommand).int32)
+  let cmd = ctx.pushCommand(Commands.Icon, IconCommand.sizeof.int32)
   cmd.icon.id = id
   cmd.icon.rect = rect
   cmd.icon.color = color
@@ -1077,8 +1074,7 @@ proc endTreenode*(ctx: Ctx) =
   ctx.popId
 
 proc pushJump*(ctx: Ctx, dst: ptr Command): ptr Command =
-  var cmd: Command
-  cmd = ctx.pushCommand(Commands.Jump, int32 sizeof(JumpCommand))
+  let cmd = ctx.pushCommand(Commands.Jump, JumpCommand.sizeof.int32)
   cmd.jump.dst = dst
   addr cmd
 
