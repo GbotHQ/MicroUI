@@ -25,7 +25,7 @@ let uiColors: Table[system.cstring, ni.Colors] = {
 
 var
   logBuf: string
-  logInputSize = cint 128
+  logInputSize = int32 128
   logTmp = cstring newString(128)
   logUpdated = false
 
@@ -39,7 +39,7 @@ proc logWindow(ctx: Ctx) =
   if not ctx.beginWindow("Log Window", rect(350, 40, 300, 200)):
     return
   # output text panel
-  let textBoxWidths = [cint -1]
+  let textBoxWidths = [int32 -1]
   ctx.layoutRow(1, textBoxWidths, -25)
   ctx.beginPanel("Log Output")
   let panel = ctx.getCurrentContainer
@@ -51,7 +51,7 @@ proc logWindow(ctx: Ctx) =
     logUpdated = false
 
   var submitted = false
-  let widths = [cint -70, -1]
+  let widths = [int32 -70, -1]
   ctx.layoutRow(2, widths, 0)
   if ctx.textbox(logTmp, logInputSize) == Result.Submit:
     ctx.setFocus(ctx.last_id)
@@ -68,7 +68,7 @@ proc logWindow(ctx: Ctx) =
   ctx.endWindow
 
 var
-  checks = [cint 1, 0, 1]
+  checks = [int32 1, 0, 1]
 
 var
   bgColR: cfloat = 90
@@ -90,7 +90,7 @@ proc testWindow(ctx: Ctx) =
   # window info
   if ctx.header("Window Info"):
     let win = ctx.getCurrentContainer
-    let widths = [cint 54, -1]
+    let widths = [int32 54, -1]
     ctx.layoutRow(2, widths, 0)
     ctx.label("Position:")
     ctx.label(cstring fmt"{win.rect.x}, {win.rect.y}")
@@ -98,8 +98,8 @@ proc testWindow(ctx: Ctx) =
     ctx.text(cstring fmt"{win.rect.w}, {win.rect.h}")
   
   # labels + buttons
-  if ctx.header("Test Buttons", Option.Expanded.toSet).bool:
-    let widths = [cint 86, -110, -1]
+  if ctx.header("Test Buttons", Option.Expanded.toSet):
+    let widths = [int32 86, -110, -1]
     ctx.layoutRow(3, widths, 0)
     ctx.label("Test buttons 1:")
     if ctx.button("Button 1"):
@@ -118,7 +118,7 @@ proc testWindow(ctx: Ctx) =
   
   # tree
   if ctx.header("Tree and Text", Option.Expanded.toSet):
-    ctx.layoutRow(2, [cint 140, -1], 0)
+    ctx.layoutRow(2, [int32 140, -1], 0)
     ctx.layoutBeginColumn
     if ctx.beginTreenode("Test 1"):
       if ctx.beginTreenode("Test 1a"):
@@ -126,24 +126,24 @@ proc testWindow(ctx: Ctx) =
         ctx.label("world")
         ctx.endTreenode
       if ctx.beginTreenode("Test 1b"):
-        if ctx.button("Button 1").bool:
+        if ctx.button("Button 1"):
           write "Pressed button 1"
-        if ctx.button("Button 2").bool:
+        if ctx.button("Button 2"):
           write "Pressed button 2"
         ctx.endTreenode
       ctx.endTreenode
     if ctx.beginTreenode("Test 2"):
-      ctx.layoutRow(2, [cint 54, 54], 0)
-      if ctx.button("Button 3").bool:
+      ctx.layoutRow(2, [int32 54, 54], 0)
+      if ctx.button("Button 3"):
         write "Pressed button 3"
-      if ctx.button("Button 4").bool:
+      if ctx.button("Button 4"):
         write "Pressed button 4"
-      if ctx.button("Button 5").bool:
+      if ctx.button("Button 5"):
         write "Pressed button 5"
-      if ctx.button("Button 6").bool:
+      if ctx.button("Button 6"):
         write "Pressed button 6"
       ctx.endTreenode
-    if ctx.beginTreenode("Test 3").bool:
+    if ctx.beginTreenode("Test 3"):
       ctx.checkbox("Checkbox 1", checks[0])
       ctx.checkbox("Checkbox 2", checks[1])
       ctx.checkbox("Checkbox 3", checks[2])
@@ -151,7 +151,7 @@ proc testWindow(ctx: Ctx) =
     ctx.layoutEndColumn
 
     ctx.layoutBeginColumn
-    ctx.layoutRow(1, [cint -1], 0)
+    ctx.layoutRow(1, [int32 -1], 0)
     ctx.text(cstring """Lorem ipsum dolor sit amet, consectetur adipiscing
 elit. Maecenas lacinia, sem eu lacinia molestie,
 mi risus faucibus ipsum, eu varius magna felis a nulla.""".replace("\n", " "))
@@ -159,10 +159,10 @@ mi risus faucibus ipsum, eu varius magna felis a nulla.""".replace("\n", " "))
   
   # background color sliders
   if ctx.header("Background Color", Option.Expanded.toSet):
-    ctx.layoutRow(2, [cint -78, -1], 74)
+    ctx.layoutRow(2, [int32 -78, -1], 74)
     # sliders
     ctx.layoutBeginColumn
-    ctx.layoutRow(2, [cint 46, -1], 0)
+    ctx.layoutRow(2, [int32 46, -1], 0)
     ctx.label("Red:")
     ctx.slider(bgColR, 0, 255)
     ctx.label("Green:")
@@ -179,7 +179,7 @@ mi risus faucibus ipsum, eu varius magna felis a nulla.""".replace("\n", " "))
   ctx.endWindow
 
 proc uint8Slider(ctx: Ctx, value: ptr uint8, lowVal, highVal: int): bool {.discardable.} =
-  ctx.pushId(addr value, sizeof(value).cint)
+  ctx.pushId(addr value, value.sizeof.int32)
   var tmp = cfloat value[]
   result = ctx.slider(tmp, cfloat lowVal, cfloat highVal, 0, 0)
   value[] = tmp.uint8
@@ -188,8 +188,8 @@ proc uint8Slider(ctx: Ctx, value: ptr uint8, lowVal, highVal: int): bool {.disca
 proc styleWindow(ctx: Ctx) =
   if not ctx.beginWindow("Style Editor", rect(350, 250, 300, 240)):
     return
-  let sw: cint = cint ctx.getCurrentContainer.body.w.float * 0.14
-  let widths = [cint 80, sw, sw, sw, sw, -1]
+  let sw = int32 ctx.getCurrentContainer.body.w.float * 0.14
+  let widths = [int32 80, sw, sw, sw, sw, -1]
   ctx.layoutRow(6, widths, 0)
 
   for i, k, v in enumerate uiColors:
@@ -207,13 +207,13 @@ proc processFrame(ctx: Ctx) =
   ctx.testWindow
   ctx.finish
 
-proc getTextWidth(font: Font; text: cstring; len: cint): cint =
+proc getTextWidth(font: Font; text: cstring; len: int32): int32 =
   var len = len
   if len == -1:
-    len = cint len(text)
+    len = int32 len(text)
   mr.getTextWidth(text, len)
 
-proc getTextHeight(font: Font): cint =
+proc getTextHeight(font: Font): int32 =
   mr.getTextHeight()
 
 let buttonMap = {
@@ -233,17 +233,17 @@ const keyMap = {
   GlfwKeyBackspace: Key.Backspace,
 }.toTable
 
-proc mouseButtonCb(window: ptr GlfwWindow, button, action, mods: cint) {.cdecl.} =
+proc mouseButtonCb(window: ptr GlfwWindow, button, action, mods: int32) {.cdecl.} =
   if not buttonMap.hasKey(button): return
   let b = buttonMap[button]
   var x, y: cdouble
   window.glfwGetCursorPos(addr x, addr y)
   case action
-  of GlfwPress: ctx.inputMouseDown(cint x, cint y, b)
-  of GlfwRelease: ctx.inputMouseUp(cint x, cint y, b)
+  of GlfwPress: ctx.inputMouseDown(int32 x, int32 y, b)
+  of GlfwRelease: ctx.inputMouseUp(int32 x, int32 y, b)
   else: discard
 
-proc keyPressCb(window: ptr GlfwWindow, key, scancode, action, mods: cint) {.cdecl.} =
+proc keyPressCb(window: ptr GlfwWindow, key, scancode, action, mods: int32) {.cdecl.} =
   if not keyMap.hasKey(key): return
   let k = keyMap[key]
   case action
@@ -252,10 +252,10 @@ proc keyPressCb(window: ptr GlfwWindow, key, scancode, action, mods: cint) {.cde
   else: discard
 
 proc scrollCb(window: ptr GlfwWindow, xoffset, yoffset: cdouble) {.cdecl.} =
-  ctx.inputScroll(0, cint (yoffset * -30))
+  ctx.inputScroll(0, int32 (yoffset * -30))
 
 proc cursorPosCb(window: ptr GlfwWindow, xpos, ypos: cdouble) {.cdecl.} =
-  ctx.inputMouseMove(cint xpos, cint ypos)
+  ctx.inputMouseMove(int32 xpos, int32 ypos)
 
 proc textCb(window: ptr GlfwWindow, ch: cuint) {.cdecl.} =
   inputText(ctx, cast[cstring](addr ch))
@@ -312,7 +312,7 @@ proc main() =
     # render
     mr.clear(color(uint8 bgColR, uint8 bgColG, uint8 bgColB, 255), width, height)
     let cmd: Command = nil
-    while ctx.nextCommand(addr cmd).bool:
+    while ctx.nextCommand(addr cmd):
       case cmd.typefield.Commands
       of Commands.Text: mr.drawText(cast[cstring](addr cmd.text.str), cmd.text.pos, cmd.text.color)
       of Commands.Rect: mr.drawRect(cmd.rect.rect, cmd.rect.color)
