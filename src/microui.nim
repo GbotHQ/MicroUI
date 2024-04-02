@@ -249,7 +249,7 @@ type
     keyPressed*: KeySet
     inputText*: array[32, cschar]
   
-  Ctx* = ptr CtxBase
+  Ctx* = ref CtxBase
 
 template defineSetConverters(T: typedesc) =
   converter toSet*(opt: T): set[T] =
@@ -494,7 +494,6 @@ const defaultStyle =
   )
 
 proc init*(ctx: Ctx) =
-  ctx.zeroMem(sizeof(ctx[]))
   ctx.drawFrame = drawFrame
   ctx.internalStyle = defaultStyle
   ctx.style = addr ctx.internalStyle

@@ -287,7 +287,7 @@ proc main() =
   mr.init()
 
   # init microui
-  ctx = create CtxBase
+  ctx = new CtxBase
   ctx.init
   ctx.textwidth = getTextWidth
   ctx.textheight = getTextHeight
