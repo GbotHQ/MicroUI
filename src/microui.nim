@@ -296,27 +296,24 @@ proc rectOverlapsVec2(r: Rect, p: Vec2): bool =
   (p.y < r.y + r.h)
 
 # pool
-proc getPool*(ctx: Ctx, items: ptr PoolItem, len: int32, id: Id): int32 =
-  let itemsIndexable = cast[ptr UncheckedArray[PoolItem]](items)
+proc getPool*(ctx: Ctx, items: openArray[PoolItem], len: int32, id: Id): int32 =
   for i in 0..<len:
-    if itemsIndexable[i].id == id:
+    if items[i].id == id:
       return i
   -1
 
-proc updatePool*(ctx: Ctx, items: ptr PoolItem, idx: int32) =
-  let itemsIndexable = cast[ptr UncheckedArray[PoolItem]](items)
-  itemsIndexable[idx].lastUpdate = ctx.frame
+proc updatePool*(ctx: Ctx, items: var openArray[PoolItem], idx: int32) =
+  items[idx].lastUpdate = ctx.frame
 
-proc initPool*(ctx: Ctx, items: ptr PoolItem, len: int32, id: Id): int32 =
+proc initPool*(ctx: Ctx, items: var openArray[PoolItem], len: int32, id: Id): int32 =
   result = -1
   var f = ctx.frame
-  let itemsIndexable = cast[ptr UncheckedArray[PoolItem]](items)
   for i in 0..<len:
-    if itemsIndexable[i].lastUpdate < f:
-      f = itemsIndexable[i].lastUpdate
+    if items[i].lastUpdate < f:
+      f = items[i].lastUpdate
       result = i
   assert result > -1
-  itemsIndexable[result.int].id = id
+  items[result.int].id = id
   ctx.updatePool(items, result)
 
 # clip
@@ -608,14 +605,14 @@ proc getCurrentContainer*(ctx: Ctx): Container =
 proc getContainerBase(ctx: Ctx, id: Id, opt: OptionSet): Container = 
   var cnt: Container
   # try to get existing container from pool
-  var idx = ctx.getPool(cast[ptr PoolItem](addr ctx.containerPool[0]), ContainerPoolSize, id)
+  var idx = ctx.getPool(ctx.containerPool, ContainerPoolSize, id)
   if idx >= 0:
     if ctx.containers[idx].open or (Option.Closed in opt).not:
-      ctx.updatePool(cast[ptr PoolItem](addr ctx.containerPool[0]), idx)
+      ctx.updatePool(ctx.containerPool, idx)
     return addr ctx.containers[idx]
   if (Option.Closed in opt): return nil
   # container not found in pool: init new container
-  idx = ctx.initPool(cast[ptr PoolItem](addr ctx.containerPool[0]), ContainerPoolSize, id)
+  idx = ctx.initPool(ctx.containerPool, ContainerPoolSize, id)
   cnt = addr ctx.containers[idx]
   zeroMem(cnt, sizeof(ContainerBase))
   cnt.open = true
@@ -1019,7 +1016,7 @@ proc headerBase*(ctx: Ctx, label: cstring, isTreeNode: bool, opt: OptionSet): bo
   var r: Rect
   var active, expanded: bool
   let id = ctx.getId(label)
-  let idx = ctx.getPool(cast[ptr PoolItem](addr ctx.treenodePool[0]), TreenodePoolSize, id)
+  let idx = ctx.getPool(ctx.treenodePool, TreenodePoolSize, id)
   ctx.layoutRow(1, [int32 -1], 0)
 
   active = idx >= 0
@@ -1037,11 +1034,11 @@ proc headerBase*(ctx: Ctx, label: cstring, isTreeNode: bool, opt: OptionSet): bo
   # update pool ref
   if idx >= 0:
     if active:
-      ctx.updatePool(cast[ptr PoolItem](addr ctx.treenodePool[0]), idx)
+      ctx.updatePool(ctx.treenodePool, idx)
     else:
       zeroMem(addr ctx.treenodePool[idx], sizeof(PoolItem))
   elif active:
-    discard ctx.initPool(cast[ptr PoolItem](addr ctx.treenodePool[0]), TreenodePoolSize, id)
+    discard ctx.initPool(ctx.treenodePool, TreenodePoolSize, id)
 
   # draw
   if isTreeNode:
