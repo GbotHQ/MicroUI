@@ -922,7 +922,8 @@ proc numberTextBox(ctx: Ctx, value: var cfloat, r: Rect, id: Id): bool =
     var cstr = cast[cstring](addr ctx.numberEditBuf[0])
     let res = ctx.textboxRaw(cstr, ctx.numberEditBuf.len.int32, id, r)
     if res == Result.Submit or ctx.focus != id:
-      value = parseFloat($cstr)
+      try: value = parseFloat($cstr)
+      except: discard
       ctx.numberEdit = 0
     else:
       result = true

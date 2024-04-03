@@ -195,10 +195,11 @@ proc processFrame(ctx: Ctx) =
   ctx.finish
 
 proc getTextWidth(font: Font; text: cstring; len: int32): int32 =
-  var len = len
-  if len == -1:
-    len = int32 len(text)
-  mr.getTextWidth(text, len)
+  mr.getTextWidth(
+    text,
+    if len == -1: int32 text.len
+    else: len
+  )
 
 proc getTextHeight(font: Font): int32 =
   mr.getTextHeight()
