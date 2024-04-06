@@ -6,7 +6,6 @@
 ## Demo
 
 ### Requirements
-* futhark - see https://github.com/PMunch/futhark?tab=readme-ov-file#installation for installation instructions
 * GLFW - see https://www.glfw.org/download.html
 * Glad - included in [`demo`](demo)
 
