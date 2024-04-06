@@ -1,6 +1,9 @@
-import std/[math, tables, typetraits, enumerate]
-import ../src/microui
-import bmp as bmp
+import
+  math,
+  tables,
+  typetraits,
+  ../../src/microui,
+  bmp
 
 
 # no idea if this define works
@@ -25,11 +28,14 @@ else:
 
 
 # compile C dependencies
-{.compile: "demo/glad/src/glad.c".}
-{.passC: "-I demo/glad/include".}
-{.passC: gorge("pkg-config --cflags glfw3").}
+{.compile: "demo/glad+glfw/glad/src/glad.c".}
+{.passC: "-I demo/glad+glfw/glad/include".}
+{.passC: "-I demo/glad+glfw/glfw/include".}
 
-{.passl: gorge("pkg-config --static --libs glfw3").}
+when defined(windows):
+  {.passl: "-L. -lglfw3".}
+else:
+  {.passl: gorge("pkg-config --static --libs glfw3").}
 
 
 type
@@ -39,11 +45,12 @@ type
   
   f32 = float32
   
-const AtlasWidth* = 128'i32
-const AtlasHeight* = 128'i32
-const AtlasSize* = AtlasWidth * AtlasHeight
+const
+  AtlasWidth* = 128'i32
+  AtlasHeight* = 128'i32
+  AtlasSize* = AtlasWidth * AtlasHeight
 
-let atlasTexture* = bmp.read("demo/atlas.bmp", grayscale = true)
+let atlasTexture* = bmp.read("demo/glad+glfw/atlas.bmp", grayscale = true)
 
 # font character bounding boxes
 const atlasRects* = {
@@ -229,16 +236,16 @@ proc pushQuad(dst: Rect, src: Rect, color: Color) =
   let y = src.y.f32 / AtlasHeight.f32
   let w = src.w.f32 / AtlasWidth.f32
   let h = src.h.f32 / AtlasHeight.f32
-  for i, k in enumerate([
+  for i, k in [
     x, y, x + w, y, x, y + h, x + w, y + h
-  ]):
+  ]:
     texBuf[texVertIdx + i.int32] = k
 
   # update vertex buffer
-  for i, k in enumerate([
+  for i, k in [
     dst.x, dst.y, dst.x + dst.w, dst.y, dst.x,
     dst.y + dst.h, dst.x + dst.w, dst.y + dst.h
-  ]):
+  ]:
     vertBuf[texVertIdx + i.int32] = k.f32
 
   # update color buffer
@@ -246,9 +253,9 @@ proc pushQuad(dst: Rect, src: Rect, color: Color) =
     colorBuf[colorIdx + k..<colorIdx + k + 4] = [color.r, color.g, color.b, color.a]
 
   # update index buffer
-  for i, k in enumerate([
+  for i, k in [
     uint32 0, 1, 2, 2, 3, 1
-  ]):
+  ]:
     indexBuf[indexIdx + i.int32] = elementIdx + k
 
 proc drawRect*(rect: Rect, color: Color) =

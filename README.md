@@ -1,13 +1,13 @@
 # ![microui](https://user-images.githubusercontent.com/3920290/75171571-be83c500-5723-11ea-8a50-504cc2ae1109.png)
  A complete rewrite of the amazing microui library in nim https://github.com/rxi/microui
  
- See [`demo`](demo) for example usage
+ See [`demo`](demo/) for example usage
  
 ## Demo
 
 ### Requirements
 * GLFW - see https://www.glfw.org/download.html
-* Glad - included in [`demo`](demo)
+* Glad - included in [`demo`](demo/glad+glfw/)
 
 ### Usage
 ```bash

@@ -1,13 +1,18 @@
-import std/[tables, enumerate, strformat, strutils, colors]
-import ../src/microui as ni
-import ../src/microui
-import microui_renderer as mr
-import microui_renderer
+import
+  tables,
+  strformat,
+  strutils,
+  colors,
+  ../../src/microui as ni,
+  ../../src/microui,
+  ../../src/managers,
+  microui_renderer as mr,
+  microui_renderer
 
 var ctx: Ctx
 
 let uiColors = {
-  cstring "text:": Colors.Text,
+  "text:": Colors.Text,
   "border:": Colors.Border,
   "windowbg:": Colors.Windowbg,
   "titlebg:": Colors.Titlebg,
@@ -21,29 +26,27 @@ let uiColors = {
   "basefocus:": Colors.Basefocus,
   "scrollbase:": Colors.Scrollbase,
   "scrollthumb:": Colors.Scrollthumb
-}.toTable
+}.toOrderedTable
 
 var
-  logBuf: string
-  logInputSize = int32 128
-  logTmp = cstring newString(128)
+  logBuf = newStringOfCap(128)
+  logTmp = newStringOfCap(128)
   logUpdated = false
 
-proc write(txt: cstring) =
+proc write(txt: string) =
   if logbuf.len > 2048: logbuf.setLen 0
   if logbuf.len > 0: logbuf.add '\n'
   logBuf.add txt
   logUpdated = true
 
 proc logWindow(ctx: Ctx) =
-  if not ctx.beginWindow("Log Window", rect(350, 40, 300, 200)):
-    return
+  ctx.windowWithDefer("Log Window", rect(350, 40, 300, 200))
   # output text panel
   ctx.layoutRow(1, [int32 -1], -25)
   ctx.beginPanel("Log Output")
-  let panel = ctx.getCurrentContainer
+  let panel = ctx.containerStack[^1]
   ctx.layoutRow(1, [int32 -1], -1)
-  ctx.text(cstring logBuf)
+  ctx.text(logBuf)
   ctx.endPanel
   if logUpdated:
     panel.scroll.y = panel.content_size.y
@@ -51,44 +54,42 @@ proc logWindow(ctx: Ctx) =
 
   var submitted = false
   ctx.layoutRow(2, [int32 -70, -1], 0)
-  if ctx.textbox(logTmp, logInputSize) == Result.Submit:
+  if ctx.textbox(logTmp, 128) == Result.Submit:
     ctx.setFocus(ctx.last_id)
     submitted = true
   if ctx.button("Submit"):
     submitted = true
   if submitted:
     write logTmp
-    logTmp[0] = '\0'
-
-  ctx.endWindow
+    logTmp.setLen 0
 
 var
   checks = [int32 1, 0, 1]
 
-var
-  bgColR: cfloat = 90
-  bgColG: cfloat = 95
-  bgColB: cfloat = 100
+  bgColR: float32 = 90
+  bgColG: float32 = 95
+  bgColB: float32 = 100
 
 proc testWindow(ctx: Ctx) =
-  if not ctx.beginWindow("Test Window", rect(40, 40, 300, 450)):
-    return
-  let win = ctx.getCurrentContainer
-  win.rect.w = max(win.rect.w, 240);
-  win.rect.h = max(win.rect.h, 300);
+  ctx.windowWithDefer("Test Window", rect(40, 40, 300, 450))
+  let win = ctx.containerStack[^1]
+  win.rect.w = max(win.rect.w, 240)
+  win.rect.h = max(win.rect.h, 300)
 
   # window info
   if ctx.header("Window Info"):
-    let win = ctx.getCurrentContainer
-    ctx.layoutRow(2, [int32 54, -1], 0)
+    let win = ctx.containerStack[^1]
+    let widths = [int32 54, -1]
+    ctx.layoutRow(2, widths, 0)
     ctx.label("Position:")
-    ctx.label(cstring fmt"{win.rect.x}, {win.rect.y}")
+    ctx.label(fmt"{win.rect.x}, {win.rect.y}")
     ctx.label("Size:")
-    ctx.text(cstring fmt"{win.rect.w}, {win.rect.h}")
+    ctx.text(fmt"{win.rect.w}, {win.rect.h}")
   
   # labels + buttons
-  if ctx.header("Test Buttons", Option.Expanded.toSet):
-    ctx.layoutRow(3, [int32 86, -110, -1], 0)
+  if ctx.header("Test Buttons", Option.Expanded.toSet).bool:
+    let widths = [int32 86, -110, -1]
+    ctx.layoutRow(3, widths, 0)
     ctx.label("Test buttons 1:")
     if ctx.button("Button 1"):
       write "Pressed button 1"
@@ -99,93 +100,81 @@ proc testWindow(ctx: Ctx) =
       write "Pressed button 3"
     if ctx.button("Popup"):
       ctx.openPopup("Test Popup")
-    if ctx.beginPopup("Test Popup"):
+    ctx.popup("Test Popup"):
       ctx.button("Hello")
       ctx.button("World")
-      ctx.endPopup
   
   # tree
   if ctx.header("Tree and Text", Option.Expanded.toSet):
     ctx.layoutRow(2, [int32 140, -1], 0)
-    ctx.layoutBeginColumn
-    if ctx.beginTreenode("Test 1"):
-      if ctx.beginTreenode("Test 1a"):
-        ctx.label("Hello")
-        ctx.label("world")
-        ctx.endTreenode
-      if ctx.beginTreenode("Test 1b"):
-        if ctx.button("Button 1"):
-          write "Pressed button 1"
-        if ctx.button("Button 2"):
-          write "Pressed button 2"
-        ctx.endTreenode
-      ctx.endTreenode
-    if ctx.beginTreenode("Test 2"):
-      ctx.layoutRow(2, [int32 54, 54], 0)
-      if ctx.button("Button 3"):
-        write "Pressed button 3"
-      if ctx.button("Button 4"):
-        write "Pressed button 4"
-      if ctx.button("Button 5"):
-        write "Pressed button 5"
-      if ctx.button("Button 6"):
-        write "Pressed button 6"
-      ctx.endTreenode
-    if ctx.beginTreenode("Test 3"):
-      ctx.checkbox("Checkbox 1", checks[0])
-      ctx.checkbox("Checkbox 2", checks[1])
-      ctx.checkbox("Checkbox 3", checks[2])
-      ctx.endTreenode
-    ctx.layoutEndColumn
+    ctx.column:
+      ctx.treenode("Test 1"):
+        ctx.treenode("Test 1a"):
+          ctx.label("Hello")
+          ctx.label("world")
+        ctx.treenode("Test 1b"):
+          if ctx.button("Button 1"):
+            write "Pressed button 1"
+          if ctx.button("Button 2"):
+            write "Pressed button 2"
+      ctx.treenode("Test 2"):
+        ctx.layoutRow(2, [int32 54, 54], 0)
+        if ctx.button("Button 3"):
+          write "Pressed button 3"
+        if ctx.button("Button 4"):
+          write "Pressed button 4"
+        if ctx.button("Button 5"):
+          write "Pressed button 5"
+        if ctx.button("Button 6"):
+          write "Pressed button 6"
+      ctx.treenode("Test 3"):
+        ctx.checkbox("Checkbox 1", checks[0])
+        ctx.checkbox("Checkbox 2", checks[1])
+        ctx.checkbox("Checkbox 3", checks[2])
 
-    ctx.layoutBeginColumn
-    ctx.layoutRow(1, [int32 -1], 0)
-    ctx.text(cstring """Lorem ipsum dolor sit amet, consectetur adipiscing
+    ctx.column:
+      ctx.layoutRow(1, [int32 -1], 0)
+      ctx.text("""Lorem ipsum dolor sit amet, consectetur adipiscing
 elit. Maecenas lacinia, sem eu lacinia molestie,
 mi risus faucibus ipsum, eu varius magna felis a nulla.""".replace("\n", " "))
-    ctx.layoutEndColumn
   
   # background color sliders
   if ctx.header("Background Color", Option.Expanded.toSet):
     ctx.layoutRow(2, [int32 -78, -1], 74)
     # sliders
-    ctx.layoutBeginColumn
-    ctx.layoutRow(2, [int32 46, -1], 0)
-    ctx.label("Red:")
-    ctx.slider(bgColR, 0, 255)
-    ctx.label("Green:")
-    ctx.slider(bgColG, 0, 255)
-    ctx.label("Blue:")
-    ctx.slider(bgColB, 0, 255)
-    ctx.layoutEndColumn
+    ctx.column:
+      ctx.layoutRow(2, [int32 46, -1], 0)
+      ctx.label("Red:")
+      ctx.slider(bgColR, 0, 255)
+      ctx.label("Green:")
+      ctx.slider(bgColG, 0, 255)
+      ctx.label("Blue:")
+      ctx.slider(bgColB, 0, 255)
 
     let r = ctx.layoutNext
     ctx.drawRect(r, color(uint8 bgColR, uint8 bgColG, uint8 bgColB, 255))
-    let cstr = cstring $rgb(uint8 bgColR, uint8 bgColG, uint8 bgColB)
-    ctx.drawControlText(cstr, r, Colors.Text, Option.Aligncenter.toSet)
-
-  ctx.endWindow
+    let str = $rgb(uint8 bgColR, uint8 bgColG, uint8 bgColB)
+    ctx.drawControlText(str, r, Colors.Text, Option.Aligncenter.toSet)
 
 proc uint8Slider(ctx: Ctx, value: ptr uint8, lowVal, highVal: int): bool {.discardable.} =
-  ctx.pushId value.addr
-  var tmp = cfloat value[]
-  result = ctx.slider(tmp, cfloat lowVal, cfloat highVal, 0, 0)
+  ctx.idStack.add ctx.getId(addr value)
+  var tmp = float32 value[]
+  result = ctx.slider(tmp, float32 lowVal, float32 highVal, 0, 0)
   value[] = tmp.uint8
-  ctx.popID
+  ctx.idStack.rm
 
 proc styleWindow(ctx: Ctx) =
-  if not ctx.beginWindow("Style Editor", rect(350, 250, 300, 240)):
-    return
-  let sw = int32 ctx.getCurrentContainer.body.w.float * 0.14
-  ctx.layoutRow(6, [int32 80, sw, sw, sw, sw, -1], 0)
+  ctx.windowWithDefer("Style Editor", rect(350, 250, 300, 240))
+  let sw = int32 ctx.containerStack[^1].body.w.float * 0.14
+  let widths = [int32 80, sw, sw, sw, sw, -1]
+  ctx.layoutRow(6, widths, 0)
 
-  for i, k, v in enumerate uiColors:
+  for k, v in uiColors:
     ctx.label(k)
-    let color = addr ctx.style.colors[i]
+    let color = addr ctx.style.colors[v]
     for k in [addr color.r, addr color.g, addr color.b, addr color.a]:
       ctx.uint8Slider(k, 0, 255)
-    ctx.drawRect(ctx.layoutNext, ctx.style.colors[i])
-  ctx.endWindow
+    ctx.drawRect(ctx.layoutNext, ctx.style.colors[v])
 
 proc processFrame(ctx: Ctx) =
   ctx.begin
@@ -194,9 +183,9 @@ proc processFrame(ctx: Ctx) =
   ctx.testWindow
   ctx.finish
 
-proc getTextWidth(font: Font; text: cstring; len: int32): int32 =
+proc getTextWidth(font: Font, text: string, len: int32): int32 =
   mr.getTextWidth(
-    text,
+    cstring text,
     if len == -1: int32 text.len
     else: len
   )
@@ -204,7 +193,7 @@ proc getTextWidth(font: Font; text: cstring; len: int32): int32 =
 proc getTextHeight(font: Font): int32 =
   mr.getTextHeight()
 
-let buttonMap = {
+const buttonMap = {
   GlfwMouseButtonLeft: Mouse.Left,
   GlfwMouseButtonRight: Mouse.Right,
   GlfwMouseButtonMiddle: Mouse.Middle
@@ -222,7 +211,7 @@ const keyMap = {
 }.toTable
 
 proc mouseButtonCb(window: ptr GlfwWindow, button, action, mods: int32) {.cdecl.} =
-  if not buttonMap.hasKey(button): return
+  if not buttonMap.hasKey button: return
   let b = buttonMap[button]
   var x, y: cdouble
   window.glfwGetCursorPos(addr x, addr y)
@@ -240,13 +229,18 @@ proc keyPressCb(window: ptr GlfwWindow, key, scancode, action, mods: int32) {.cd
   else: discard
 
 proc scrollCb(window: ptr GlfwWindow, xoffset, yoffset: cdouble) {.cdecl.} =
-  ctx.inputScroll(0, int32 (yoffset * -30))
+  ctx.inputScroll(0, yoffset.int32 * -15)
 
 proc cursorPosCb(window: ptr GlfwWindow, xpos, ypos: cdouble) {.cdecl.} =
   ctx.inputMouseMove(int32 xpos, int32 ypos)
 
 proc textCb(window: ptr GlfwWindow, ch: cuint) {.cdecl.} =
-  inputText(ctx, cast[cstring](addr ch))
+  inputText(ctx, $cast[cstring](addr ch))
+
+proc strFromCmd(ctx: Ctx, cmd: Command): string =
+  for i in cmd.text.strLoc+1..<ctx.stringBuffer.len:
+    if ctx.stringBuffer[i] == '\0': break
+    result.add ctx.stringBuffer[i]
 
 proc main() =
   # init glfw
@@ -258,8 +252,8 @@ proc main() =
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0)
 
   var
-    width: cint = 800
-    height: cint = 600
+    width: int32 = 800
+    height: int32 = 600
   
   let window = glfwCreateWindow(width, height, "Microui Demo", nil, nil)
   assert window != nil, "Failed to create GLFW window"
@@ -273,8 +267,7 @@ proc main() =
   mr.init()
 
   # init microui
-  ctx = new CtxBase
-  ctx.init
+  ctx = initCtx()
   ctx.textwidth = getTextWidth
   ctx.textheight = getTextHeight
 
@@ -297,12 +290,13 @@ proc main() =
 
     # render
     mr.clear(color(uint8 bgColR, uint8 bgColG, uint8 bgColB, 255), width, height)
-    let cmd: Command = nil
-    while ctx.nextCommand(addr cmd):
-      case cmd.typefield.Commands
-      of Commands.Text: mr.drawText(cast[cstring](addr cmd.text.str), cmd.text.pos, cmd.text.color)
+    for cmd in ctx.iterCommands:
+      case cmd.typ
+      of Commands.Text:
+        let text = ctx.strFromCmd cmd
+        mr.drawText(cstring text, cmd.text.pos, cmd.text.color)
       of Commands.Rect: mr.drawRect(cmd.rect.rect, cmd.rect.color)
-      of Commands.Icon: mr.drawIcon(cmd.icon.id, cmd.icon.rect, cmd.icon.color)
+      of Commands.Icon: mr.drawIcon(cmd.icon.id.int32, cmd.icon.rect, cmd.icon.color)
       of Commands.Clip: mr.setClipRect(cmd.clip.rect)
       else: discard
 
