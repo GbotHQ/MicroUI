@@ -298,6 +298,10 @@ proc clear*(color: Color, w, h: cint) =
   width = w
   height = h
   flush()
+  gladGlScissor(
+    0, 0,
+    width, height
+  )
   gladGlClearColor(
     color.r.f32 / 255,
     color.g.f32 / 255,
