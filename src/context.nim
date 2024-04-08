@@ -54,7 +54,7 @@ type
   IconCommand* = object
     typ*: Commands
     rect*: Rect
-    id*: Icon
+    strLoc*: i32
     color*: Color
 
   CommandBase* {.union.} = object
@@ -122,6 +122,16 @@ type
 
 template rm*(stk: typed) =
   stk.setLen stk.len - 1
+
+proc getStr*(ctx: Ctx, cmd: TextCommand): string =
+  for i in cmd.strLoc+1..<ctx.stringBuffer.len:
+    if ctx.stringBuffer[i] == '\0': break
+    result.add ctx.stringBuffer[i]
+
+proc getStr*(ctx: Ctx, cmd: IconCommand): string =
+  for i in cmd.strLoc+1..<ctx.stringBuffer.len:
+    if ctx.stringBuffer[i] == '\0': break
+    result.add ctx.stringBuffer[i]
 
 # pool
 proc getPool*(ctx: Ctx, items: openArray[PoolItem], id: Id): i32 =

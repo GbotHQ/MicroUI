@@ -2,41 +2,15 @@ import
   math,
   tables,
   typetraits,
-  ../../src/microui,
+  ../../src/microui as mu,
   bmp
-
-
-# no idea if this define works
-{.emit: "#define GLFW_INCLUDE_NONE".}
-
-when defined(useFuthark):
-  import futhark, os
-  const srcDir = currentSourcePath.parentDir
-
-  importc:
-    outputPath srcDir / "glad.nim"
-    path "glad/include/glad"
-    "glad.h"
-
-  importc:
-    outputPath srcDir / "glfw3.nim"
-    path "/usr/local/include/GLFW"
-    "glfw3.h"
-else:
-  include "glad.nim"
-  include "glfw3.nim"
-
-
-# compile C dependencies
-{.compile: "demo/glad+glfw/glad/src/glad.c".}
-{.passC: "-I demo/glad+glfw/glad/include".}
-{.passC: "-I demo/glad+glfw/glfw/include".}
-
-when defined(windows):
-  {.passl: "-L. -lglfw3".}
-else:
-  {.passl: gorge("pkg-config --static --libs glfw3").}
-
+import sokol/[
+  log as slog,
+  app as sapp,
+  gfx as sg,
+  glue as sglue,
+  gl as sgl,
+]
 
 type
   Icon* {.pure.} = enum
@@ -57,7 +31,7 @@ const
   AtlasHeight* = 128'i32
   AtlasSize* = AtlasWidth * AtlasHeight
 
-let atlasTexture* = bmp.read("demo/glad+glfw/atlas.bmp", grayscale = true)
+let atlasTexture* = bmp.read("demo/sokol/atlas.bmp", grayscale = true)
 
 # font character bounding boxes
 const atlasRects* = {
@@ -164,111 +138,76 @@ const atlasRects* = {
   Atlas.Font.int32+127: rect(108, 51, 6, 17),
 }.toTable
 
-
-const BufferSize = int32 2 ^ 14
-
 var
-  texBuf: array[BufferSize * 8, f32]
-  vertBuf: array[BufferSize * 8, f32]
-  colorBuf: array[BufferSize * 16, GLubyte]
-  indexBuf: array[BufferSize * 6, GLuint]
-  
-  width: int32
-  height: int32
-  bufIdx: int32
+  pip: sgl.Pipeline
+  atlasTex: sg.Image
+  atlasSmp: sg.Sampler
 
 proc init*() =
-  # Initialize GL
-  gladglEnable(GlBlend)
-  gladglBlendFunc(GlSrcAlpha, GlOneMinusSrcAlpha)
-  gladglDisable(GlCullFace)
-  gladglDisable(GlDepthTest)
-  gladglEnable(GlScissorTest)
-  gladglEnable(GlTexture2D)
-  gladglEnableClientState(GlVertexArray)
-  gladglEnableClientState(GlTextureCoordArray)
-  gladglEnableClientState(GlColorArray)
+  var pixels: array[AtlasSize, uint32]
+  for i in 0..<AtlasSize:
+    pixels[i] = cast[uint32]([255'u8, 255, 255, atlasTexture[i]])
   
-  # Initialize texture
-  var textureId: uint32
-  gladglGenTextures(1, addr textureId)
-  gladglBindTexture(GlTexture2D, textureId)
-  gladglTexImage2D(
-    GlTexture2D, 0, GlAlpha, AtlasWidth, AtlasHeight,
-    0, GlAlpha, GlUnsignedByte, addr atlasTexture[0]
-  )
-  gladglTexParameteri(GlTexture2D, GlTextureMinFilter, GlNearest)
-  gladglTexParameteri(GlTexture2D, GlTextureMagFilter, GlNearest)
-  assert gladglGetError() == 0
+  atlasTex = sg.makeImage(sg.ImageDesc(
+    width: AtlasWidth,
+    height: AtlasHeight,
+    data: sg.ImageData(
+      subimage: [[sg.Range(addr: addr pixels, size: sizeof pixels)]]
+    )
+  ))
+  atlasSmp = sg.makeSampler(sg.SamplerDesc(
+    minFilter: sg.filterNearest,
+    magFilter: sg.filterNearest,
+  ))
 
-proc flush(): void =
-  if bufIdx == 0:
-    return
+  pip = sgl.makePipeline(sg.PipelineDesc(
+    colors: [sg.ColorTargetState(
+      blend: sg.BlendState(
+        enabled: true,
+        srcFactorRgb: sg.blendFactorSrcAlpha,
+        dstFactorRgb: sg.blendFactorOneMinusSrcAlpha,
+      )
+    )]
+  ))
 
-  gladglViewport(0, 0, width, height)
-  gladglMatrixMode(GlProjection)
-  gladglPushMatrix()
-  gladglLoadIdentity()
-  gladglOrtho(
-    0'f64, width.float64, height.float64, 0'f64, -1'f64, 1'f64
-  )
-  gladglMatrixMode(GlModelview)
-  gladglPushMatrix()
-  gladglLoadIdentity()
+proc begin*() =
+  sgl.defaults()
+  sgl.pushPipeline()
+  sgl.loadPipeline(pip)
+  sgl.enableTexture()
+  sgl.texture(atlasTex, atlasSmp)
+  sgl.matrixModeProjection()
+  sgl.pushMatrix()
+  sgl.ortho(0, sapp.widthf(), sapp.heightf(), 0, -1, 1)
+  sgl.beginQuads()
 
-  gladglTexCoordPointer(2, GlFloat, 0, addr texBuf[0])
-  gladglVertexPointer(2, GlFloat, 0, addr vertBuf[0])
-  gladglColorPointer(4, GlUnsignedByte, 0, addr colorBuf[0])
-  gladglDrawElements(GlTriangles, bufIdx * 6, GlUnsignedInt, addr indexBuf[0])
+proc finish*() =
+  sgl.end()
+  sgl.popMatrix()
+  sgl.popPipeline()
 
-  gladglMatrixMode(GlModelview)
-  gladglPopMatrix()
-  gladglMatrixMode(GlProjection)
-  gladglPopMatrix()
+proc pushQuad(dst: Rect, src: Rect, color: mu.Color) =
+  let
+    u0 = f32 src.l / AtlasWidth
+    v0 = f32 src.t / AtlasHeight
+    u1 = f32 src.r / AtlasWidth
+    v1 = f32 src.b / AtlasHeight
+    
+    x0 = f32 dst.l
+    y0 = f32 dst.t
+    x1 = f32 dst.r
+    y1 = f32 dst.b
 
-  bufIdx = 0
+  sgl.c4b(color.r, color.g, color.b, color.a)
+  sgl.v2fT2f(x0, y0, u0, v0)
+  sgl.v2fT2f(x1, y0, u1, v0)
+  sgl.v2fT2f(x1, y1, u1, v1)
+  sgl.v2fT2f(x0, y1, u0, v1)
 
-proc pushQuad(dst: Rect, src: Rect, color: Color) =
-  if bufIdx == BufferSize:
-    flush()
-
-  let texVertIdx = bufIdx * 8
-  let colorIdx = bufIdx * 16
-  let elementIdx = uint32 bufIdx * 4
-  let indexIdx = bufIdx * 6
-  inc bufIdx
-
-  # update texture buffer
-  let x = src.x.f32 / AtlasWidth.f32
-  let y = src.y.f32 / AtlasHeight.f32
-  let w = src.w.f32 / AtlasWidth.f32
-  let h = src.h.f32 / AtlasHeight.f32
-  for i, k in [
-    x, y, x + w, y, x, y + h, x + w, y + h
-  ]:
-    texBuf[texVertIdx + i.int32] = k
-
-  # update vertex buffer
-  for i, k in [
-    dst.x, dst.y, dst.x + dst.w, dst.y, dst.x,
-    dst.y + dst.h, dst.x + dst.w, dst.y + dst.h
-  ]:
-    vertBuf[texVertIdx + i.int32] = k.f32
-
-  # update color buffer
-  for k in [0, 4, 8, 12]:
-    colorBuf[colorIdx + k..<colorIdx + k + 4] = [color.r, color.g, color.b, color.a]
-
-  # update index buffer
-  for i, k in [
-    uint32 0, 1, 2, 2, 3, 1
-  ]:
-    indexBuf[indexIdx + i.int32] = elementIdx + k
-
-proc drawRect*(rect: Rect, color: Color) =
+proc drawRect*(rect: Rect, color: mu.Color) =
   pushQuad(rect, atlasRects[Atlas.White.int32], color)
 
-proc drawText*(text: string, pos: Vec2, color: Color) =
+proc drawText*(text: string, pos: Vec2, color: mu.Color) =
   var dst = rect(pos.x, pos.y, 0, 0)
   for p in text:
     if (p.uint8 and 0xc0) == 0x80:
@@ -284,7 +223,7 @@ proc drawText*(text: string, pos: Vec2, color: Color) =
     pushQuad(dst, src, color)
     dst.x += dst.w
 
-proc drawIcon*(icon: string, rect: Rect, color: Color) =
+proc drawIcon*(icon: string, rect: Rect, color: mu.Color) =
   let id =
     case icon
     of "close-button": Icon.Close
@@ -311,27 +250,6 @@ proc getTextHeight*(): int32 =
   18
 
 proc setClipRect*(rect: Rect) =
-  flush()
-  gladGlScissor(
-    rect.x.int32, height - rect.y.int32 - rect.h.int32,
-    rect.w.int32, rect.h.int32
-  )
-
-proc clear*(color: Color, w, h: int32) =
-  width = w
-  height = h
-  flush()
-  gladGlScissor(
-    0, 0,
-    width, height
-  )
-  gladGlClearColor(
-    color.r.f32 / 255,
-    color.g.f32 / 255,
-    color.b.f32 / 255,
-    color.a.f32 / 255
-  )
-  gladGlClear(GlColorBufferBit)
-
-proc present*() =
-  flush()
+  sgl.end()
+  sgl.scissorRect(rect.x, rect.y, rect.w, rect.h, true)
+  sgl.beginQuads()

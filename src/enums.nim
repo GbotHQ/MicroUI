@@ -32,13 +32,6 @@ type
     BaseFocus
     ScrollBase
     ScrollThumb
-  
-  Icon* {.pure.} = enum
-    None
-    Close
-    Check
-    Collapsed
-    Expanded
 
   Result* {.pure.} = enum
     Active

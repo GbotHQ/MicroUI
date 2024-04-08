@@ -81,15 +81,15 @@ proc getParentId(ctx: Ctx): Id =
   if ctx.idStack.len > 0:
     result = ctx.idStack[^1]
 
-proc getIdBase(ctx: Ctx, dataHash: Hash): Id =
-  result = Id !$(ctx.getParentId !& dataHash)
+proc getId*(ctx: Ctx, hash: Hash): Id =
+  result = Id !$(ctx.getParentId !& hash)
   ctx.lastId = result
 
 proc getId*(ctx: Ctx, data: ptr): Id =
-  ctx.getIdBase hashData(data, data[].sizeof)
+  ctx.getId hashData(data, data[].sizeof)
 
 proc getId*(ctx: Ctx, data: string): Id =
-  ctx.getIdBase hash(data)
+  ctx.getId hash(data)
 
 proc getContainerBase*(ctx: Ctx, id: Id, opt: OptionSet = {}): Container = 
   # try to get existing container from pool
@@ -155,50 +155,51 @@ proc layoutNext*(ctx: Ctx): Rect =
     layout = addr ctx.layoutStack[^1]
     style = addr ctx.style
 
-  var res: Rect
   if layout.nextType != LayoutType.None:
     # handle rect set by `layoutSetNext`
     let typ = layout.nextType
     layout.nextType = LayoutType.None
-    res = layout.next
+    result = layout.next
     if typ == LayoutType.Absolute:
-      ctx.lastRect = res
-      return res
+      ctx.lastRect = result
+      return result
   else:
     # handle next row
     if layout.itemIndex == layout.items:
       ctx.layoutRow(layout.items, [], layout.size.y)
 
     # position
-    res.x = layout.position.x
-    res.y = layout.position.y
+    result.x = layout.position.x
+    result.y = layout.position.y
 
     # size
-    res.w = 
+    result.w = 
       if layout.items > 0: layout.widths[layout.itemIndex] 
       else: layout.size.x
-    res.h = layout.size.y
-    if res.w == 0: res.w = style.size.x + style.padding * 2
-    if res.h == 0: res.h = style.size.y + style.padding * 2
-    if res.w < 0: res.w += layout.body.w - res.x + 1
-    if res.h < 0: res.h += layout.body.h - res.y + 1
+    result.h = layout.size.y
+    if result.w == 0: result.w = style.size.x + style.padding * 2
+    if result.h == 0: result.h = style.size.y + style.padding * 2
+    if result.w < 0: result.w += layout.body.w - result.x + 1
+    if result.h < 0: result.h += layout.body.h - result.y + 1
 
     inc layout.itemIndex
 
   # update position
-  layout.position.x += res.w + style.spacing
-  layout.nextRow = max(layout.nextRow, res.y + res.h + style.spacing)
+  layout.position.x += result.w + style.spacing
+  layout.nextRow = max(
+    layout.nextRow,
+    result.y + result.h + style.spacing
+  )
 
   # apply body offset
-  res.x += layout.body.x
-  res.y += layout.body.y
+  result.x += layout.body.x
+  result.y += layout.body.y
 
   # update max position
-  layout.max.x = max(layout.max.x, res.x + res.w)
-  layout.max.y = max(layout.max.y, res.y + res.h)
+  layout.max.x = max(layout.max.x, result.x + result.w)
+  layout.max.y = max(layout.max.y, result.y + result.h)
 
-  ctx.lastRect = res
-  res
+  ctx.lastRect = result
 
 proc layoutBeginColumn*(ctx: Ctx) =
   ctx.pushLayout(ctx.layoutNext, vec2(0, 0))
@@ -250,8 +251,6 @@ proc inHoverRoot(ctx: Ctx): bool =
       break
 
 proc mouseOver*(ctx: Ctx, rect: Rect): bool =
-  for i in 0..100_000:
-    discard ctx.inHoverRoot
   overlapsPos(rect, ctx.mousePos) and
     overlapsPos(ctx.clipStack[^1], ctx.mousePos) and
     ctx.inHoverRoot

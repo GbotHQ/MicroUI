@@ -7,6 +7,7 @@ import
   enums,
   draw,
   core,
+  hashes,
   type_shorthands
 
 proc getContainer*(ctx: Ctx, name: string): Container =
@@ -46,7 +47,7 @@ proc text*(ctx: Ctx, text: string) =
 proc label*(ctx: Ctx, text: string) =
   ctx.drawControlText(text, ctx.layoutNext, Colors.Text)
 
-proc button*(ctx: Ctx, label: string, icon = Icon.None, opt = Option.AlignCenter.toSet): bool {.discardable.} =  
+proc button*(ctx: Ctx, label: string, icon = "", opt = Option.AlignCenter.toSet): bool {.discardable.} =  
   let id =
     if not label.isNil:
       ctx.getId(label)
@@ -61,7 +62,7 @@ proc button*(ctx: Ctx, label: string, icon = Icon.None, opt = Option.AlignCenter
   ctx.drawControlFrame(id, rect, Colors.Button, opt)
   if not label.isNil:
     ctx.drawControlText(label, rect, Colors.Text, opt)
-  if icon != Icon.None:
+  if icon.len > 0:
     ctx.drawIcon(icon, rect, ctx.style.colors[Colors.Text])
 
 proc checkbox*(ctx: Ctx, label: string, state: var i32): bool {.discardable.} =
@@ -78,7 +79,7 @@ proc checkbox*(ctx: Ctx, label: string, state: var i32): bool {.discardable.} =
   # draw
   ctx.drawControlFrame(id, box, Colors.Base)
   if state != 0:
-    ctx.drawIcon(Icon.Check, box, ctx.style.colors[Colors.Text])
+    ctx.drawIcon("checkbox-checked", box, ctx.style.colors[Colors.Text])
   r = rect(r.x + box.w, r.y, r.w - box.w, r.h)
   ctx.drawControlText(label, r, Colors.Text)
 
@@ -235,7 +236,7 @@ proc header*(ctx: Ctx, label: string, opt: OptionSet = {}, isTreeNode = false): 
   else:
     ctx.drawControlFrame(id, r, Colors.Button)
   ctx.drawIcon(
-    if expanded: Icon.Expanded else: Icon.Collapsed,
+    if expanded: "header-expanded" else: "header-collapsed",
     rect(r.x, r.y, r.h, r.h), ctx.style.colors[Colors.Text]
   )
   r.x += r.h - ctx.style.padding
@@ -276,11 +277,12 @@ proc endRootContainer(ctx: Ctx) =
   ctx.clipStack.rm
   ctx.popContainer
 
+const scrollbarYHash = hash "!scrollBarY"
 proc scrollBarY(ctx: Ctx, cnt: Container, body: var Rect, contentSize: Vec2) =
   # only add scrollbar if content size is larger than body
   let maxScroll = contentSize.y - body.h
   if maxScroll > 0 and body.h > 0:
-    let id = ctx.getId("!scrollBarY")
+    let id = ctx.getId scrollbarYHash
 
     # get sizing / positioning
     var base = body
@@ -309,11 +311,12 @@ proc scrollBarY(ctx: Ctx, cnt: Container, body: var Rect, contentSize: Vec2) =
   else:
     cnt.scroll.y = 0
 
+const scrollbarXHash = hash "!scrollBarX"
 proc scrollBarX(ctx: Ctx, cnt: Container, body: var Rect, contentSize: Vec2) =
   # only add scrollbar if content size is larger than body
   let maxScroll = contentSize.x - body.w
   if maxScroll > 0 and body.w > 0:
-    let id = ctx.getId("!scrollBarX")
+    let id = ctx.getId scrollbarXHash
 
     # get sizing / positioning
     var base = body
@@ -366,6 +369,10 @@ proc pushContainerBody(ctx: Ctx, cnt: Container, body: Rect, opt: OptionSet = {}
   ctx.pushLayout(expand(body, -ctx.style.padding), cnt.scroll)
   cnt.body = body
 
+const
+  titleHash = hash "!title"
+  closeHash = hash "!close"
+  resizeHash = hash "!resize"
 proc beginWindow*(ctx: Ctx, title: string, rect: Rect, opt: OptionSet = {}): bool =
   var
     id = ctx.getId(title)
@@ -393,7 +400,7 @@ proc beginWindow*(ctx: Ctx, title: string, rect: Rect, opt: OptionSet = {}): boo
 
     # draw title text
     if Option.NoTitle notin opt:
-      let id = ctx.getId("!title")
+      let id = ctx.getId titleHash
       ctx.updateControl(id, tr, opt)
       ctx.drawControlText(title, tr, Colors.TitleText, opt)
       if id == ctx.focus and ctx.lmbDown:
@@ -405,10 +412,10 @@ proc beginWindow*(ctx: Ctx, title: string, rect: Rect, opt: OptionSet = {}): boo
     # draw `close` button
     if Option.NoClose notin opt:
       let
-        id = ctx.getId("!close")
+        id = ctx.getId closeHash
         r = rect(tr.x + tr.w - tr.h, tr.y, tr.h, tr.h)
       tr.w -= r.w
-      ctx.drawIcon(Icon.Close, r, ctx.style.colors[Colors.TitleText])
+      ctx.drawIcon("close-button", r, ctx.style.colors[Colors.TitleText])
       ctx.updateControl(id, r, opt)
       if ctx.lmbPressed and id == ctx.focus:
         cnt.open = false
@@ -419,7 +426,7 @@ proc beginWindow*(ctx: Ctx, title: string, rect: Rect, opt: OptionSet = {}): boo
   if Option.NoResize notin opt:
     let
       sz = ctx.style.titleHeight
-      id = ctx.getId("!resize")
+      id = ctx.getId resizeHash
       r = rect(rec.x + rec.w - sz, rec.y + rec.h - sz, sz, sz)
     ctx.updateControl(id, r, opt)
     if ctx.lmbDown and id == ctx.focus:

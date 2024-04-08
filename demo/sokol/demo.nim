@@ -3,12 +3,24 @@ import
   strformat,
   strutils,
   colors,
+  unicode,
   ../../src/microui,
   ../../src/managers,
   microui_renderer as mr,
   microui_renderer
+import sokol/[
+  log as slog,
+  app as sapp,
+  gfx as sg,
+  glue as sglue,
+  gl as sgl,
+]
 
 var ctx: Ctx
+
+var passAction = PassAction(
+  colors: [ ColorAttachmentAction( loadAction: loadActionClear, clearValue: (0, 0, 0, 1)) ]
+)
 
 let uiColors = {
   "text:": Colors.Text,
@@ -190,90 +202,66 @@ proc getTextHeight(font: Font): int32 =
   mr.getTextHeight()
 
 const buttonMap = {
-  GlfwMouseButtonLeft: Mouse.Left,
-  GlfwMouseButtonRight: Mouse.Right,
-  GlfwMouseButtonMiddle: Mouse.Middle
+  mouseButtonLeft: Mouse.Left,
+  mouseButtonRight: Mouse.Right,
+  mouseButtonMiddle: Mouse.Middle
 }.toTable
 
 const keyMap = {
-  GlfwKeyLeftShift: Key.Shift,
-  GlfwKeyRightShift: Key.Shift,
-  GlfwKeyLeftControl: Key.Ctrl,
-  GlfwKeyRightControl: Key.Ctrl,
-  GlfwKeyLeftAlt: Key.Alt,
-  GlfwKeyRightAlt: Key.Alt,
-  GlfwKeyEnter: Key.Return,
-  GlfwKeyBackspace: Key.Backspace,
+  keyCodeLeftShift: Key.Shift,
+  keyCodeRightShift: Key.Shift,
+  keyCodeLeftControl: Key.Ctrl,
+  keyCodeRightControl: Key.Ctrl,
+  keyCodeLeftAlt: Key.Alt,
+  keyCodeRightAlt: Key.Alt,
+  keyCodeEnter: Key.Return,
+  keyCodeBackspace: Key.Backspace,
 }.toTable
 
-proc mouseButtonCb(window: ptr GlfwWindow, button, action, mods: int32) {.cdecl.} =
-  if not buttonMap.hasKey button: return
-  let b = buttonMap[button]
-  var x, y: cdouble
-  window.glfwGetCursorPos(addr x, addr y)
-  case action
-  of GlfwPress: ctx.inputMouseDown(int32 x, int32 y, b)
-  of GlfwRelease: ctx.inputMouseUp(int32 x, int32 y, b)
-  else: discard
-
-proc keyPressCb(window: ptr GlfwWindow, key, scancode, action, mods: int32) {.cdecl.} =
-  if not keyMap.hasKey(key): return
-  let k = keyMap[key]
-  case action
-  of GlfwPress, GlfwRepeat: ctx.inputKeyDown(k)
-  of GlfwRelease: ctx.inputKeyUp(k)
-  else: discard
-
-proc scrollCb(window: ptr GlfwWindow, xoffset, yoffset: cdouble) {.cdecl.} =
-  ctx.inputScroll(0, yoffset.int32 * -15)
-
-proc cursorPosCb(window: ptr GlfwWindow, xpos, ypos: cdouble) {.cdecl.} =
-  ctx.inputMouseMove(int32 xpos, int32 ypos)
-
-proc textCb(window: ptr GlfwWindow, ch: cuint) {.cdecl.} =
-  inputText(ctx, $cast[cstring](addr ch))
-
-var
-  window: ptr GlfwWindow
-  width = 800'i32
-  height = 600'i32
-
-proc initGlfw() =
-  assert glfwInit().bool, "Failed to initialize GLFW"
-
-  glfwWindowHint(GLFW_SRGB_CAPABLE, GLFW_TRUE)
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0)
+proc event(ev: ptr sapp.Event) {.cdecl.} =
+  case ev.type
+  # mouse
+  of sapp.eventTypeMouseDown, sapp.eventTypeMouseUp:
+    if buttonMap.hasKey ev.mouseButton:
+      let button = buttonMap[ev.mouseButton]
+      case ev.type
+      of sapp.eventTypeMouseDown:
+        ctx.inputMouseDown(int32 ev.mouseX, int32 ev.mouseY, button)
+      of sapp.eventTypeMouseUp:
+        ctx.inputMouseUp(int32 ev.mouseX, int32 ev.mouseY, button)
+      else: discard
   
-  window = glfwCreateWindow(width, height, "Microui Demo", nil, nil)
-  assert window != nil, "Failed to create GLFW window"
+  of sapp.eventTypeMouseMove:
+    ctx.inputMouseMove(int32 ev.mouseX, int32 ev.mouseY)
+  
+  of sapp.eventTypeMouseScroll:
+    ctx.inputScroll(0, ev.scrollY.int32 * -30)
+  
+  # keyboard
+  of sapp.eventTypeKeyDown, sapp.eventTypeKeyUp:
+    if keyMap.hasKey ev.keyCode:
+      let key = keyMap[ev.keyCode]
+      case ev.type
+      of sapp.eventTypeKeyDown:
+        ctx.inputKeyDown(key)
+      of sapp.eventTypeKeyUp:
+        ctx.inputKeyUp(key)
+      else: discard
+  of sapp.eventTypeChar:
+    let utf8 = $ev.charCode.Rune
+    if utf8 != "\b":
+      inputText(ctx, utf8)
+  else: discard
 
-  glfwSwapInterval(1)
-  window.glfwMakeContextCurrent
-
-  assert gladLoadGLLoader(cast[Gladloadproc](glfwGetProcAddress)).bool, "Failed to initialize GLAD"
-
-proc frame() =
-  ctx.processFrame
-
-  # render
-  mr.clear(color(uint8 bgColR, uint8 bgColG, uint8 bgColB, 255), width, height)
-  for cmd in ctx.iterCommands:
-    case cmd.typ
-    of Commands.Text: mr.drawText(ctx.getStr cmd.text, cmd.text.pos, cmd.text.color)
-    of Commands.Rect: mr.drawRect(cmd.rect.rect, cmd.rect.color)
-    of Commands.Icon: mr.drawIcon(ctx.getStr cmd.icon, cmd.icon.rect, cmd.icon.color)
-    of Commands.Clip: mr.setClipRect(cmd.clip.rect)
-    else: discard
-
-  mr.present()
-  window.glfwSwapBuffers
-  glfwPollEvents()
-  window.glfwGetFramebufferSize(addr width, addr height)
-
-proc main() =
-  initGlfw()
-  defer: glfwTerminate()
+proc init() {.cdecl.} =
+  sg.setup(sg.Desc(
+    environment: sglue.environment(),
+    logger: sg.Logger(fn: slog.fn),
+  ))
+  
+  sgl.setup(sgl.Desc(
+    logger: sgl.Logger(fn: slog.fn)
+  ))
 
   # init renderer
   mr.init()
@@ -284,16 +272,46 @@ proc main() =
   ctx.textheight = getTextHeight
 
   # handle input
-  discard (
-    window.glfwSetKeyCallback(cast[GLFWkeyfun](keyPressCb)),
-    window.glfwSetMouseButtonCallback(cast[GLFWmousebuttonfun](mouseButtonCb)),
-    window.glfwSetScrollCallback(cast[GLFWscrollfun](scrollCb)),
-    window.glfwSetCursorPosCallback(cast[GLFWcursorposfun](cursorPosCb)),
-    window.glfwSetCharCallback(cast[GLFWcharfun](textCb))
-  )
 
-  # main loop
-  while not window.glfwWindowShouldClose.bool:
-    frame()
+proc frame() {.cdecl.} =
+  # process frame
+  ctx.processFrame
 
-main()
+  # render
+  let clearCol = addr passAction.colors[0].clearValue
+  clearCol.r = float32 bgColR / 255
+  clearCol.g = float32 bgColG / 255
+  clearCol.b = float32 bgColB / 255
+  
+  mr.begin()
+  for cmd in ctx.iterCommands:
+    case cmd.typ
+    of Commands.Text: mr.drawText(ctx.getStr cmd.text, cmd.text.pos, cmd.text.color)
+    of Commands.Rect: mr.drawRect(cmd.rect.rect, cmd.rect.color)
+    of Commands.Icon: mr.drawIcon(ctx.getStr cmd.icon, cmd.icon.rect, cmd.icon.color)
+    of Commands.Clip: mr.setClipRect(cmd.clip.rect)
+    else: discard
+  mr.finish()
+
+  sg.beginPass(Pass(action: passAction, swapchain: sglue.swapchain()))
+  sgl.draw()
+  sg.endPass()
+  sg.commit()
+  
+
+proc cleanup() {.cdecl.} =
+  sgl.shutdown()
+  sg.shutdown()
+
+sapp.run(sapp.Desc(
+  initCb: init,
+  frameCb: frame,
+  cleanupCb: cleanup,
+  eventCb: event,
+  width: 800,
+  height: 600,
+  sampleCount: 4,
+  windowTitle: "Microui Demo",
+  icon: IconDesc(sokol_default: true),
+  logger: sapp.Logger(fn: slog.fn)
+))

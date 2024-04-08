@@ -103,7 +103,7 @@ proc drawText*(ctx: Ctx, font: Font, str: string, len: i32, pos: Vec2, color: Co
   if clipped != Clip.None:
     ctx.setClip UnclippedRect
 
-proc drawIcon*(ctx: Ctx, id: Icon, rect: Rect, color: Color) =
+proc drawIcon*(ctx: Ctx, icon: string, rect: Rect, color: Color) =
   # do clip command if the rect isn't fully contained within the cliprect
   let clipped = ctx.checkClip rect
   case clipped
@@ -114,7 +114,12 @@ proc drawIcon*(ctx: Ctx, id: Icon, rect: Rect, color: Color) =
   else: discard
   # do icon command
   let cmd = ctx.pushCommand Commands.Icon
-  cmd.icon.id = id
+
+  let start = ctx.stringBuffer.high
+  ctx.stringBuffer.add icon
+  ctx.stringBuffer.add '\0'
+
+  cmd.icon.strLoc = i32 start
   cmd.icon.rect = rect
   cmd.icon.color = color
   # reset clipping if it was set
