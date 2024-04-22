@@ -11,7 +11,7 @@
 
 ### Usage
 ```bash
-nim c -r demo/demo.nim
+nim c -r demo/glad+glfw/demo.nim
 ```
 
 ## Features
