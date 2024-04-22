@@ -91,6 +91,10 @@ proc getId*(ctx: Ctx, data: ptr): Id =
 proc getId*(ctx: Ctx, data: string): Id =
   ctx.getId hash(data)
 
+proc getId*(ctx: Ctx, data: static string): Id =
+  let hash = static: hash(data)
+  ctx.getId hash
+
 proc getContainerBase*(ctx: Ctx, id: Id, opt: OptionSet = {}): Container = 
   # try to get existing container from pool
   var idx = ctx.getPool(ctx.containerPool, id)
