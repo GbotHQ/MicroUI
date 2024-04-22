@@ -6,8 +6,7 @@ import
   unicode,
   ../../src/microui,
   ../../src/managers,
-  microui_renderer as mr,
-  microui_renderer
+  microui_renderer as mr
 import sokol/[
   log as slog,
   app as sapp,
@@ -271,7 +270,9 @@ proc init() {.cdecl.} =
   ctx.textwidth = getTextWidth
   ctx.textheight = getTextHeight
 
-  # handle input
+proc cleanup() {.cdecl.} =
+  sgl.shutdown()
+  sg.shutdown()
 
 proc frame() {.cdecl.} =
   # process frame
@@ -297,11 +298,6 @@ proc frame() {.cdecl.} =
   sgl.draw()
   sg.endPass()
   sg.commit()
-  
-
-proc cleanup() {.cdecl.} =
-  sgl.shutdown()
-  sg.shutdown()
 
 sapp.run(sapp.Desc(
   initCb: init,

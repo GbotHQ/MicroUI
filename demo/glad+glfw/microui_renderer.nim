@@ -10,15 +10,25 @@ import
 {.emit: "#define GLFW_INCLUDE_NONE".}
 
 when defined(useFuthark):
-  import futhark, os
+  import futhark, os, strutils
   const srcDir = currentSourcePath.parentDir
 
+  proc gladRenameCb(name, kind, partof: string): string =
+    result = name
+    if result.toLower.startsWith("glad_gl"):
+      result = "o" & result[5..^1]
+
+  proc glfwRenameCb(name, kind, partof: string): string =
+    name
+
   importc:
+    renameCallback gladRenameCb
     outputPath srcDir / "glad.nim"
     path "glad/include/glad"
     "glad.h"
 
   importc:
+    renameCallback glfwRenameCb
     outputPath srcDir / "glfw3.nim"
     path "/usr/local/include/GLFW"
     "glfw3.h"
@@ -179,52 +189,52 @@ var
 
 proc init*() =
   # Initialize GL
-  gladglEnable(GlBlend)
-  gladglBlendFunc(GlSrcAlpha, GlOneMinusSrcAlpha)
-  gladglDisable(GlCullFace)
-  gladglDisable(GlDepthTest)
-  gladglEnable(GlScissorTest)
-  gladglEnable(GlTexture2D)
-  gladglEnableClientState(GlVertexArray)
-  gladglEnableClientState(GlTextureCoordArray)
-  gladglEnableClientState(GlColorArray)
+  oglEnable(GlBlend)
+  oglBlendFunc(GlSrcAlpha, GlOneMinusSrcAlpha)
+  oglDisable(GlCullFace)
+  oglDisable(GlDepthTest)
+  oglEnable(GlScissorTest)
+  oglEnable(GlTexture2D)
+  oglEnableClientState(GlVertexArray)
+  oglEnableClientState(GlTextureCoordArray)
+  oglEnableClientState(GlColorArray)
   
   # Initialize texture
   var textureId: uint32
-  gladglGenTextures(1, addr textureId)
-  gladglBindTexture(GlTexture2D, textureId)
-  gladglTexImage2D(
+  oglGenTextures(1, addr textureId)
+  oglBindTexture(GlTexture2D, textureId)
+  oglTexImage2D(
     GlTexture2D, 0, GlAlpha, AtlasWidth, AtlasHeight,
     0, GlAlpha, GlUnsignedByte, addr atlasTexture[0]
   )
-  gladglTexParameteri(GlTexture2D, GlTextureMinFilter, GlNearest)
-  gladglTexParameteri(GlTexture2D, GlTextureMagFilter, GlNearest)
-  assert gladglGetError() == 0
+  oglTexParameteri(GlTexture2D, GlTextureMinFilter, GlNearest)
+  oglTexParameteri(GlTexture2D, GlTextureMagFilter, GlNearest)
+  assert oglGetError() == 0
 
 proc flush(): void =
   if bufIdx == 0:
     return
 
-  gladglViewport(0, 0, width, height)
-  gladglMatrixMode(GlProjection)
-  gladglPushMatrix()
-  gladglLoadIdentity()
-  gladglOrtho(
+  oglViewport(0, 0, width, height)
+  oglMatrixMode(GlProjection)
+  oglPushMatrix()
+  oglLoadIdentity()
+  oglOrtho(
     0'f64, width.float64, height.float64, 0'f64, -1'f64, 1'f64
   )
-  gladglMatrixMode(GlModelview)
-  gladglPushMatrix()
-  gladglLoadIdentity()
+  oglMatrixMode(GlModelview)
+  oglPushMatrix()
+  oglLoadIdentity()
 
-  gladglTexCoordPointer(2, GlFloat, 0, addr texBuf[0])
-  gladglVertexPointer(2, GlFloat, 0, addr vertBuf[0])
-  gladglColorPointer(4, GlUnsignedByte, 0, addr colorBuf[0])
-  gladglDrawElements(GlTriangles, bufIdx * 6, GlUnsignedInt, addr indexBuf[0])
+  oglTexCoordPointer(2, GlFloat, 0, addr texBuf[0])
+  oglVertexPointer(2, GlFloat, 0, addr vertBuf[0])
+  oglColorPointer(4, GlUnsignedByte, 0, addr colorBuf[0])
+  oglDrawElements(GlTriangles, bufIdx * 6, GlUnsignedInt, addr indexBuf[0])
 
-  gladglMatrixMode(GlModelview)
-  gladglPopMatrix()
-  gladglMatrixMode(GlProjection)
-  gladglPopMatrix()
+  oglMatrixMode(GlModelview)
+  oglPopMatrix()
+  oglMatrixMode(GlProjection)
+  oglPopMatrix()
 
   bufIdx = 0
 
@@ -312,7 +322,7 @@ proc getTextHeight*(): int32 =
 
 proc setClipRect*(rect: Rect) =
   flush()
-  gladGlScissor(
+  oglScissor(
     rect.x.int32, height - rect.y.int32 - rect.h.int32,
     rect.w.int32, rect.h.int32
   )
@@ -321,17 +331,17 @@ proc clear*(color: Color, w, h: int32) =
   width = w
   height = h
   flush()
-  gladGlScissor(
+  oglScissor(
     0, 0,
     width, height
   )
-  gladGlClearColor(
+  oglClearColor(
     color.r.f32 / 255,
     color.g.f32 / 255,
     color.b.f32 / 255,
     color.a.f32 / 255
   )
-  gladGlClear(GlColorBufferBit)
+  oglClear(GlColorBufferBit)
 
 proc present*() =
   flush()

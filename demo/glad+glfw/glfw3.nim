@@ -23,54 +23,54 @@ else:
     hint("Declaration of " & "structglfwmonitor" &
         " already exists, not redeclaring")
 type
-  Glfwglproc_1526736049 = proc (): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1365:16
-  Glfwvkproc_1526736052 = proc (): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1379:16
-  Glfwmonitor_1526736054 = structglfwmonitor ## Generated based on /usr/local/include/GLFW/glfw3.h:1391:28
-  Glfwwindow_1526736056 = structglfwwindow ## Generated based on /usr/local/include/GLFW/glfw3.h:1403:27
-  Glfwcursortypedef_1526736058 = structglfwcursor ## Generated based on /usr/local/include/GLFW/glfw3.h:1415:27
-  Glfwallocatefun_1526736060 = proc (a0: csize_t; a1: pointer): pointer {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1468:18
-  Glfwreallocatefun_1526736062 = proc (a0: pointer; a1: csize_t; a2: pointer): pointer {.
+  Glfwglproc_1207969024 = proc (): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1365:16
+  Glfwvkproc_1207969026 = proc (): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1379:16
+  Glfwmonitor_1207969028 = structglfwmonitor ## Generated based on /usr/local/include/GLFW/glfw3.h:1391:28
+  Glfwwindow_1207969030 = structglfwwindow ## Generated based on /usr/local/include/GLFW/glfw3.h:1403:27
+  Glfwcursortypedef_1207969032 = structglfwcursor ## Generated based on /usr/local/include/GLFW/glfw3.h:1415:27
+  Glfwallocatefun_1207969034 = proc (a0: csize_t; a1: pointer): pointer {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1468:18
+  Glfwreallocatefun_1207969036 = proc (a0: pointer; a1: csize_t; a2: pointer): pointer {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1524:18
-  Glfwdeallocatefun_1526736064 = proc (a0: pointer; a1: pointer): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1566:17
-  Glfwerrorfun_1526736066 = proc (a0: cint; a1: cstring): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1590:17
-  Glfwwindowposfun_1526736068 = proc (a0: ptr Glfwwindow_1526736057; a1: cint;
+  Glfwdeallocatefun_1207969038 = proc (a0: pointer; a1: pointer): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1566:17
+  Glfwerrorfun_1207969040 = proc (a0: cint; a1: cstring): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1590:17
+  Glfwwindowposfun_1207969042 = proc (a0: ptr Glfwwindow_1207969031; a1: cint;
                                       a2: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1613:17
-  Glfwwindowsizefun_1526736070 = proc (a0: ptr Glfwwindow_1526736057; a1: cint;
+  Glfwwindowsizefun_1207969044 = proc (a0: ptr Glfwwindow_1207969031; a1: cint;
                                        a2: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1635:17
-  Glfwwindowclosefun_1526736072 = proc (a0: ptr Glfwwindow_1526736057): void {.
+  Glfwwindowclosefun_1207969046 = proc (a0: ptr Glfwwindow_1207969031): void {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1655:17
-  Glfwwindowrefreshfun_1526736074 = proc (a0: ptr Glfwwindow_1526736057): void {.
+  Glfwwindowrefreshfun_1207969048 = proc (a0: ptr Glfwwindow_1207969031): void {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1675:17
-  Glfwwindowfocusfun_1526736076 = proc (a0: ptr Glfwwindow_1526736057; a1: cint): void {.
+  Glfwwindowfocusfun_1207969050 = proc (a0: ptr Glfwwindow_1207969031; a1: cint): void {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1696:17
-  Glfwwindowiconifyfun_1526736078 = proc (a0: ptr Glfwwindow_1526736057;
+  Glfwwindowiconifyfun_1207969052 = proc (a0: ptr Glfwwindow_1207969031;
       a1: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1717:17
-  Glfwwindowmaximizefun_1526736080 = proc (a0: ptr Glfwwindow_1526736057;
+  Glfwwindowmaximizefun_1207969054 = proc (a0: ptr Glfwwindow_1207969031;
       a1: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1738:17
-  Glfwframebuffersizefun_1526736082 = proc (a0: ptr Glfwwindow_1526736057;
+  Glfwframebuffersizefun_1207969056 = proc (a0: ptr Glfwwindow_1207969031;
       a1: cint; a2: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1759:17
-  Glfwwindowcontentscalefun_1526736084 = proc (a0: ptr Glfwwindow_1526736057;
+  Glfwwindowcontentscalefun_1207969058 = proc (a0: ptr Glfwwindow_1207969031;
       a1: cfloat; a2: cfloat): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1780:17
-  Glfwmousebuttonfun_1526736086 = proc (a0: ptr Glfwwindow_1526736057; a1: cint;
+  Glfwmousebuttonfun_1207969060 = proc (a0: ptr Glfwwindow_1207969031; a1: cint;
                                         a2: cint; a3: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1806:17
-  Glfwcursorposfun_1526736088 = proc (a0: ptr Glfwwindow_1526736057;
+  Glfwcursorposfun_1207969062 = proc (a0: ptr Glfwwindow_1207969031;
                                       a1: cdouble; a2: cdouble): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1829:17
-  Glfwcursorenterfun_1526736090 = proc (a0: ptr Glfwwindow_1526736057; a1: cint): void {.
+  Glfwcursorenterfun_1207969064 = proc (a0: ptr Glfwwindow_1207969031; a1: cint): void {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1850:17
-  Glfwscrollfun_1526736092 = proc (a0: ptr Glfwwindow_1526736057; a1: cdouble;
+  Glfwscrollfun_1207969066 = proc (a0: ptr Glfwwindow_1207969031; a1: cdouble;
                                    a2: cdouble): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1871:17
-  Glfwkeyfun_1526736094 = proc (a0: ptr Glfwwindow_1526736057; a1: cint;
+  Glfwkeyfun_1207969068 = proc (a0: ptr Glfwwindow_1207969031; a1: cint;
                                 a2: cint; a3: cint; a4: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1897:17
-  Glfwcharfun_1526736096 = proc (a0: ptr Glfwwindow_1526736057; a1: cuint): void {.
+  Glfwcharfun_1207969070 = proc (a0: ptr Glfwwindow_1207969031; a1: cuint): void {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1918:17
-  Glfwcharmodsfun_1526736098 = proc (a0: ptr Glfwwindow_1526736057; a1: cuint;
+  Glfwcharmodsfun_1207969072 = proc (a0: ptr Glfwwindow_1207969031; a1: cuint;
                                      a2: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1945:17
-  Glfwdropfun_1526736100 = proc (a0: ptr Glfwwindow_1526736057; a1: cint;
+  Glfwdropfun_1207969074 = proc (a0: ptr Glfwwindow_1207969031; a1: cint;
                                  a2: ptr UncheckedArray[cstring]): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:1969:17
-  Glfwmonitorfun_1526736102 = proc (a0: ptr Glfwmonitor_1526736055; a1: cint): void {.
+  Glfwmonitorfun_1207969076 = proc (a0: ptr Glfwmonitor_1207969029; a1: cint): void {.
       cdecl.}                ## Generated based on /usr/local/include/GLFW/glfw3.h:1990:17
-  Glfwjoystickfun_1526736104 = proc (a0: cint; a1: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:2011:17
-  structglfwvidmode_1526736106 {.pure, inheritable, bycopy.} = object
+  Glfwjoystickfun_1207969078 = proc (a0: cint; a1: cint): void {.cdecl.} ## Generated based on /usr/local/include/GLFW/glfw3.h:2011:17
+  structglfwvidmode_1207969080 {.pure, inheritable, bycopy.} = object
     width*: cint             ## Generated based on /usr/local/include/GLFW/glfw3.h:2026:16
     height*: cint
     redbits*: cint
@@ -78,437 +78,437 @@ type
     bluebits*: cint
     refreshrate*: cint
 
-  Glfwvidmode_1526736108 = structglfwvidmode_1526736107 ## Generated based on /usr/local/include/GLFW/glfw3.h:2046:3
-  structglfwgammaramp_1526736110 {.pure, inheritable, bycopy.} = object
+  Glfwvidmode_1207969082 = structglfwvidmode_1207969081 ## Generated based on /usr/local/include/GLFW/glfw3.h:2046:3
+  structglfwgammaramp_1207969084 {.pure, inheritable, bycopy.} = object
     red*: ptr cushort        ## Generated based on /usr/local/include/GLFW/glfw3.h:2060:16
     green*: ptr cushort
     blue*: ptr cushort
     size*: cuint
 
-  Glfwgammaramp_1526736112 = structglfwgammaramp_1526736111 ## Generated based on /usr/local/include/GLFW/glfw3.h:2074:3
-  structglfwimage_1526736114 {.pure, inheritable, bycopy.} = object
+  Glfwgammaramp_1207969086 = structglfwgammaramp_1207969085 ## Generated based on /usr/local/include/GLFW/glfw3.h:2074:3
+  structglfwimage_1207969088 {.pure, inheritable, bycopy.} = object
     width*: cint             ## Generated based on /usr/local/include/GLFW/glfw3.h:2089:16
     height*: cint
     pixels*: ptr uint8
 
-  Glfwimage_1526736116 = structglfwimage_1526736115 ## Generated based on /usr/local/include/GLFW/glfw3.h:2100:3
-  structglfwgamepadstate_1526736118 {.pure, inheritable, bycopy.} = object
+  Glfwimage_1207969090 = structglfwimage_1207969089 ## Generated based on /usr/local/include/GLFW/glfw3.h:2100:3
+  structglfwgamepadstate_1207969092 {.pure, inheritable, bycopy.} = object
     buttons*: array[15'i64, uint8] ## Generated based on /usr/local/include/GLFW/glfw3.h:2113:16
     axes*: array[6'i64, cfloat]
 
-  Glfwgamepadstate_1526736120 = structglfwgamepadstate_1526736119 ## Generated based on /usr/local/include/GLFW/glfw3.h:2123:3
-  structglfwallocator_1526736122 {.pure, inheritable, bycopy.} = object
-    allocate*: Glfwallocatefun_1526736061 ## Generated based on /usr/local/include/GLFW/glfw3.h:2137:16
-    reallocate*: Glfwreallocatefun_1526736063
-    deallocate*: Glfwdeallocatefun_1526736065
+  Glfwgamepadstate_1207969094 = structglfwgamepadstate_1207969093 ## Generated based on /usr/local/include/GLFW/glfw3.h:2123:3
+  structglfwallocator_1207969096 {.pure, inheritable, bycopy.} = object
+    allocate*: Glfwallocatefun_1207969035 ## Generated based on /usr/local/include/GLFW/glfw3.h:2137:16
+    reallocate*: Glfwreallocatefun_1207969037
+    deallocate*: Glfwdeallocatefun_1207969039
     user*: pointer
 
-  Glfwallocator_1526736124 = structglfwallocator_1526736123 ## Generated based on /usr/local/include/GLFW/glfw3.h:2155:3
-  Glfwmonitor_1526736055 = (when declared(Glfwmonitor):
+  Glfwallocator_1207969098 = structglfwallocator_1207969097 ## Generated based on /usr/local/include/GLFW/glfw3.h:2155:3
+  Glfwmonitor_1207969029 = (when declared(Glfwmonitor):
     Glfwmonitor
    else:
-    Glfwmonitor_1526736054)
-  Glfwcursorposfun_1526736089 = (when declared(Glfwcursorposfun):
+    Glfwmonitor_1207969028)
+  Glfwcursorposfun_1207969063 = (when declared(Glfwcursorposfun):
     Glfwcursorposfun
    else:
-    Glfwcursorposfun_1526736088)
-  Glfwscrollfun_1526736093 = (when declared(Glfwscrollfun):
+    Glfwcursorposfun_1207969062)
+  Glfwscrollfun_1207969067 = (when declared(Glfwscrollfun):
     Glfwscrollfun
    else:
-    Glfwscrollfun_1526736092)
-  Glfwwindowsizefun_1526736071 = (when declared(Glfwwindowsizefun):
+    Glfwscrollfun_1207969066)
+  Glfwwindowsizefun_1207969045 = (when declared(Glfwwindowsizefun):
     Glfwwindowsizefun
    else:
-    Glfwwindowsizefun_1526736070)
-  Glfwcharmodsfun_1526736099 = (when declared(Glfwcharmodsfun):
+    Glfwwindowsizefun_1207969044)
+  Glfwcharmodsfun_1207969073 = (when declared(Glfwcharmodsfun):
     Glfwcharmodsfun
    else:
-    Glfwcharmodsfun_1526736098)
-  structglfwvidmode_1526736107 = (when declared(structglfwvidmode):
+    Glfwcharmodsfun_1207969072)
+  structglfwvidmode_1207969081 = (when declared(structglfwvidmode):
     structglfwvidmode
    else:
-    structglfwvidmode_1526736106)
-  structglfwgammaramp_1526736111 = (when declared(structglfwgammaramp):
+    structglfwvidmode_1207969080)
+  structglfwgammaramp_1207969085 = (when declared(structglfwgammaramp):
     structglfwgammaramp
    else:
-    structglfwgammaramp_1526736110)
-  Glfwwindowfocusfun_1526736077 = (when declared(Glfwwindowfocusfun):
+    structglfwgammaramp_1207969084)
+  Glfwwindowfocusfun_1207969051 = (when declared(Glfwwindowfocusfun):
     Glfwwindowfocusfun
    else:
-    Glfwwindowfocusfun_1526736076)
-  Glfwgammaramp_1526736113 = (when declared(Glfwgammaramp):
+    Glfwwindowfocusfun_1207969050)
+  Glfwgammaramp_1207969087 = (when declared(Glfwgammaramp):
     Glfwgammaramp
    else:
-    Glfwgammaramp_1526736112)
-  Glfwwindowclosefun_1526736073 = (when declared(Glfwwindowclosefun):
+    Glfwgammaramp_1207969086)
+  Glfwwindowclosefun_1207969047 = (when declared(Glfwwindowclosefun):
     Glfwwindowclosefun
    else:
-    Glfwwindowclosefun_1526736072)
-  structglfwgamepadstate_1526736119 = (when declared(structglfwgamepadstate):
+    Glfwwindowclosefun_1207969046)
+  structglfwgamepadstate_1207969093 = (when declared(structglfwgamepadstate):
     structglfwgamepadstate
    else:
-    structglfwgamepadstate_1526736118)
-  structglfwallocator_1526736123 = (when declared(structglfwallocator):
+    structglfwgamepadstate_1207969092)
+  structglfwallocator_1207969097 = (when declared(structglfwallocator):
     structglfwallocator
    else:
-    structglfwallocator_1526736122)
-  Glfwvidmode_1526736109 = (when declared(Glfwvidmode):
+    structglfwallocator_1207969096)
+  Glfwvidmode_1207969083 = (when declared(Glfwvidmode):
     Glfwvidmode
    else:
-    Glfwvidmode_1526736108)
-  Glfwwindowrefreshfun_1526736075 = (when declared(Glfwwindowrefreshfun):
+    Glfwvidmode_1207969082)
+  Glfwwindowrefreshfun_1207969049 = (when declared(Glfwwindowrefreshfun):
     Glfwwindowrefreshfun
    else:
-    Glfwwindowrefreshfun_1526736074)
-  Glfwjoystickfun_1526736105 = (when declared(Glfwjoystickfun):
+    Glfwwindowrefreshfun_1207969048)
+  Glfwjoystickfun_1207969079 = (when declared(Glfwjoystickfun):
     Glfwjoystickfun
    else:
-    Glfwjoystickfun_1526736104)
-  Glfwimage_1526736117 = (when declared(Glfwimage):
+    Glfwjoystickfun_1207969078)
+  Glfwimage_1207969091 = (when declared(Glfwimage):
     Glfwimage
    else:
-    Glfwimage_1526736116)
-  Glfwdeallocatefun_1526736065 = (when declared(Glfwdeallocatefun):
+    Glfwimage_1207969090)
+  Glfwdeallocatefun_1207969039 = (when declared(Glfwdeallocatefun):
     Glfwdeallocatefun
    else:
-    Glfwdeallocatefun_1526736064)
-  Glfwmonitorfun_1526736103 = (when declared(Glfwmonitorfun):
+    Glfwdeallocatefun_1207969038)
+  Glfwmonitorfun_1207969077 = (when declared(Glfwmonitorfun):
     Glfwmonitorfun
    else:
-    Glfwmonitorfun_1526736102)
-  Glfwcursorenterfun_1526736091 = (when declared(Glfwcursorenterfun):
+    Glfwmonitorfun_1207969076)
+  Glfwcursorenterfun_1207969065 = (when declared(Glfwcursorenterfun):
     Glfwcursorenterfun
    else:
-    Glfwcursorenterfun_1526736090)
-  Glfwdropfun_1526736101 = (when declared(Glfwdropfun):
+    Glfwcursorenterfun_1207969064)
+  Glfwdropfun_1207969075 = (when declared(Glfwdropfun):
     Glfwdropfun
    else:
-    Glfwdropfun_1526736100)
-  Glfwallocatefun_1526736061 = (when declared(Glfwallocatefun):
+    Glfwdropfun_1207969074)
+  Glfwallocatefun_1207969035 = (when declared(Glfwallocatefun):
     Glfwallocatefun
    else:
-    Glfwallocatefun_1526736060)
-  Glfwgamepadstate_1526736121 = (when declared(Glfwgamepadstate):
+    Glfwallocatefun_1207969034)
+  Glfwgamepadstate_1207969095 = (when declared(Glfwgamepadstate):
     Glfwgamepadstate
    else:
-    Glfwgamepadstate_1526736120)
-  Glfwwindow_1526736057 = (when declared(Glfwwindow):
+    Glfwgamepadstate_1207969094)
+  Glfwwindow_1207969031 = (when declared(Glfwwindow):
     Glfwwindow
    else:
-    Glfwwindow_1526736056)
-  Glfwallocator_1526736125 = (when declared(Glfwallocator):
+    Glfwwindow_1207969030)
+  Glfwallocator_1207969099 = (when declared(Glfwallocator):
     Glfwallocator
    else:
-    Glfwallocator_1526736124)
-  Glfwglproc_1526736051 = (when declared(Glfwglproc):
+    Glfwallocator_1207969098)
+  Glfwglproc_1207969025 = (when declared(Glfwglproc):
     Glfwglproc
    else:
-    Glfwglproc_1526736049)
-  Glfwwindowmaximizefun_1526736081 = (when declared(Glfwwindowmaximizefun):
+    Glfwglproc_1207969024)
+  Glfwwindowmaximizefun_1207969055 = (when declared(Glfwwindowmaximizefun):
     Glfwwindowmaximizefun
    else:
-    Glfwwindowmaximizefun_1526736080)
-  Glfwerrorfun_1526736067 = (when declared(Glfwerrorfun):
+    Glfwwindowmaximizefun_1207969054)
+  Glfwerrorfun_1207969041 = (when declared(Glfwerrorfun):
     Glfwerrorfun
    else:
-    Glfwerrorfun_1526736066)
-  Glfwreallocatefun_1526736063 = (when declared(Glfwreallocatefun):
+    Glfwerrorfun_1207969040)
+  Glfwreallocatefun_1207969037 = (when declared(Glfwreallocatefun):
     Glfwreallocatefun
    else:
-    Glfwreallocatefun_1526736062)
-  Glfwwindowiconifyfun_1526736079 = (when declared(Glfwwindowiconifyfun):
+    Glfwreallocatefun_1207969036)
+  Glfwwindowiconifyfun_1207969053 = (when declared(Glfwwindowiconifyfun):
     Glfwwindowiconifyfun
    else:
-    Glfwwindowiconifyfun_1526736078)
-  Glfwwindowcontentscalefun_1526736085 = (when declared(
+    Glfwwindowiconifyfun_1207969052)
+  Glfwwindowcontentscalefun_1207969059 = (when declared(
       Glfwwindowcontentscalefun):
     Glfwwindowcontentscalefun
    else:
-    Glfwwindowcontentscalefun_1526736084)
-  Glfwcursortypedef_1526736059 = (when declared(Glfwcursortypedef):
+    Glfwwindowcontentscalefun_1207969058)
+  Glfwcursortypedef_1207969033 = (when declared(Glfwcursortypedef):
     Glfwcursortypedef
    else:
-    Glfwcursortypedef_1526736058)
-  Glfwvkproc_1526736053 = (when declared(Glfwvkproc):
+    Glfwcursortypedef_1207969032)
+  Glfwvkproc_1207969027 = (when declared(Glfwvkproc):
     Glfwvkproc
    else:
-    Glfwvkproc_1526736052)
-  Glfwkeyfun_1526736095 = (when declared(Glfwkeyfun):
+    Glfwvkproc_1207969026)
+  Glfwkeyfun_1207969069 = (when declared(Glfwkeyfun):
     Glfwkeyfun
    else:
-    Glfwkeyfun_1526736094)
-  Glfwcharfun_1526736097 = (when declared(Glfwcharfun):
+    Glfwkeyfun_1207969068)
+  Glfwcharfun_1207969071 = (when declared(Glfwcharfun):
     Glfwcharfun
    else:
-    Glfwcharfun_1526736096)
-  Glfwwindowposfun_1526736069 = (when declared(Glfwwindowposfun):
+    Glfwcharfun_1207969070)
+  Glfwwindowposfun_1207969043 = (when declared(Glfwwindowposfun):
     Glfwwindowposfun
    else:
-    Glfwwindowposfun_1526736068)
-  structglfwimage_1526736115 = (when declared(structglfwimage):
+    Glfwwindowposfun_1207969042)
+  structglfwimage_1207969089 = (when declared(structglfwimage):
     structglfwimage
    else:
-    structglfwimage_1526736114)
-  Glfwmousebuttonfun_1526736087 = (when declared(Glfwmousebuttonfun):
+    structglfwimage_1207969088)
+  Glfwmousebuttonfun_1207969061 = (when declared(Glfwmousebuttonfun):
     Glfwmousebuttonfun
    else:
-    Glfwmousebuttonfun_1526736086)
-  Glfwframebuffersizefun_1526736083 = (when declared(Glfwframebuffersizefun):
+    Glfwmousebuttonfun_1207969060)
+  Glfwframebuffersizefun_1207969057 = (when declared(Glfwframebuffersizefun):
     Glfwframebuffersizefun
    else:
-    Glfwframebuffersizefun_1526736082)
+    Glfwframebuffersizefun_1207969056)
 when not declared(Glfwmonitor):
   type
-    Glfwmonitor* = Glfwmonitor_1526736054
+    Glfwmonitor* = Glfwmonitor_1207969028
 else:
   static :
     hint("Declaration of " & "Glfwmonitor" & " already exists, not redeclaring")
 when not declared(Glfwcursorposfun):
   type
-    Glfwcursorposfun* = Glfwcursorposfun_1526736088
+    Glfwcursorposfun* = Glfwcursorposfun_1207969062
 else:
   static :
     hint("Declaration of " & "Glfwcursorposfun" &
         " already exists, not redeclaring")
 when not declared(Glfwscrollfun):
   type
-    Glfwscrollfun* = Glfwscrollfun_1526736092
+    Glfwscrollfun* = Glfwscrollfun_1207969066
 else:
   static :
     hint("Declaration of " & "Glfwscrollfun" &
         " already exists, not redeclaring")
 when not declared(Glfwwindowsizefun):
   type
-    Glfwwindowsizefun* = Glfwwindowsizefun_1526736070
+    Glfwwindowsizefun* = Glfwwindowsizefun_1207969044
 else:
   static :
     hint("Declaration of " & "Glfwwindowsizefun" &
         " already exists, not redeclaring")
 when not declared(Glfwcharmodsfun):
   type
-    Glfwcharmodsfun* = Glfwcharmodsfun_1526736098
+    Glfwcharmodsfun* = Glfwcharmodsfun_1207969072
 else:
   static :
     hint("Declaration of " & "Glfwcharmodsfun" &
         " already exists, not redeclaring")
 when not declared(structglfwvidmode):
   type
-    structglfwvidmode* = structglfwvidmode_1526736106
+    structglfwvidmode* = structglfwvidmode_1207969080
 else:
   static :
     hint("Declaration of " & "structglfwvidmode" &
         " already exists, not redeclaring")
 when not declared(structglfwgammaramp):
   type
-    structglfwgammaramp* = structglfwgammaramp_1526736110
+    structglfwgammaramp* = structglfwgammaramp_1207969084
 else:
   static :
     hint("Declaration of " & "structglfwgammaramp" &
         " already exists, not redeclaring")
 when not declared(Glfwwindowfocusfun):
   type
-    Glfwwindowfocusfun* = Glfwwindowfocusfun_1526736076
+    Glfwwindowfocusfun* = Glfwwindowfocusfun_1207969050
 else:
   static :
     hint("Declaration of " & "Glfwwindowfocusfun" &
         " already exists, not redeclaring")
 when not declared(Glfwgammaramp):
   type
-    Glfwgammaramp* = Glfwgammaramp_1526736112
+    Glfwgammaramp* = Glfwgammaramp_1207969086
 else:
   static :
     hint("Declaration of " & "Glfwgammaramp" &
         " already exists, not redeclaring")
 when not declared(Glfwwindowclosefun):
   type
-    Glfwwindowclosefun* = Glfwwindowclosefun_1526736072
+    Glfwwindowclosefun* = Glfwwindowclosefun_1207969046
 else:
   static :
     hint("Declaration of " & "Glfwwindowclosefun" &
         " already exists, not redeclaring")
 when not declared(structglfwgamepadstate):
   type
-    structglfwgamepadstate* = structglfwgamepadstate_1526736118
+    structglfwgamepadstate* = structglfwgamepadstate_1207969092
 else:
   static :
     hint("Declaration of " & "structglfwgamepadstate" &
         " already exists, not redeclaring")
 when not declared(structglfwallocator):
   type
-    structglfwallocator* = structglfwallocator_1526736122
+    structglfwallocator* = structglfwallocator_1207969096
 else:
   static :
     hint("Declaration of " & "structglfwallocator" &
         " already exists, not redeclaring")
 when not declared(Glfwvidmode):
   type
-    Glfwvidmode* = Glfwvidmode_1526736108
+    Glfwvidmode* = Glfwvidmode_1207969082
 else:
   static :
     hint("Declaration of " & "Glfwvidmode" & " already exists, not redeclaring")
 when not declared(Glfwwindowrefreshfun):
   type
-    Glfwwindowrefreshfun* = Glfwwindowrefreshfun_1526736074
+    Glfwwindowrefreshfun* = Glfwwindowrefreshfun_1207969048
 else:
   static :
     hint("Declaration of " & "Glfwwindowrefreshfun" &
         " already exists, not redeclaring")
 when not declared(Glfwjoystickfun):
   type
-    Glfwjoystickfun* = Glfwjoystickfun_1526736104
+    Glfwjoystickfun* = Glfwjoystickfun_1207969078
 else:
   static :
     hint("Declaration of " & "Glfwjoystickfun" &
         " already exists, not redeclaring")
 when not declared(Glfwimage):
   type
-    Glfwimage* = Glfwimage_1526736116
+    Glfwimage* = Glfwimage_1207969090
 else:
   static :
     hint("Declaration of " & "Glfwimage" & " already exists, not redeclaring")
 when not declared(Glfwdeallocatefun):
   type
-    Glfwdeallocatefun* = Glfwdeallocatefun_1526736064
+    Glfwdeallocatefun* = Glfwdeallocatefun_1207969038
 else:
   static :
     hint("Declaration of " & "Glfwdeallocatefun" &
         " already exists, not redeclaring")
 when not declared(Glfwmonitorfun):
   type
-    Glfwmonitorfun* = Glfwmonitorfun_1526736102
+    Glfwmonitorfun* = Glfwmonitorfun_1207969076
 else:
   static :
     hint("Declaration of " & "Glfwmonitorfun" &
         " already exists, not redeclaring")
 when not declared(Glfwcursorenterfun):
   type
-    Glfwcursorenterfun* = Glfwcursorenterfun_1526736090
+    Glfwcursorenterfun* = Glfwcursorenterfun_1207969064
 else:
   static :
     hint("Declaration of " & "Glfwcursorenterfun" &
         " already exists, not redeclaring")
 when not declared(Glfwdropfun):
   type
-    Glfwdropfun* = Glfwdropfun_1526736100
+    Glfwdropfun* = Glfwdropfun_1207969074
 else:
   static :
     hint("Declaration of " & "Glfwdropfun" & " already exists, not redeclaring")
 when not declared(Glfwallocatefun):
   type
-    Glfwallocatefun* = Glfwallocatefun_1526736060
+    Glfwallocatefun* = Glfwallocatefun_1207969034
 else:
   static :
     hint("Declaration of " & "Glfwallocatefun" &
         " already exists, not redeclaring")
 when not declared(Glfwgamepadstate):
   type
-    Glfwgamepadstate* = Glfwgamepadstate_1526736120
+    Glfwgamepadstate* = Glfwgamepadstate_1207969094
 else:
   static :
     hint("Declaration of " & "Glfwgamepadstate" &
         " already exists, not redeclaring")
 when not declared(Glfwwindow):
   type
-    Glfwwindow* = Glfwwindow_1526736056
+    Glfwwindow* = Glfwwindow_1207969030
 else:
   static :
     hint("Declaration of " & "Glfwwindow" & " already exists, not redeclaring")
 when not declared(Glfwallocator):
   type
-    Glfwallocator* = Glfwallocator_1526736124
+    Glfwallocator* = Glfwallocator_1207969098
 else:
   static :
     hint("Declaration of " & "Glfwallocator" &
         " already exists, not redeclaring")
 when not declared(Glfwglproc):
   type
-    Glfwglproc* = Glfwglproc_1526736049
+    Glfwglproc* = Glfwglproc_1207969024
 else:
   static :
     hint("Declaration of " & "Glfwglproc" & " already exists, not redeclaring")
 when not declared(Glfwwindowmaximizefun):
   type
-    Glfwwindowmaximizefun* = Glfwwindowmaximizefun_1526736080
+    Glfwwindowmaximizefun* = Glfwwindowmaximizefun_1207969054
 else:
   static :
     hint("Declaration of " & "Glfwwindowmaximizefun" &
         " already exists, not redeclaring")
 when not declared(Glfwerrorfun):
   type
-    Glfwerrorfun* = Glfwerrorfun_1526736066
+    Glfwerrorfun* = Glfwerrorfun_1207969040
 else:
   static :
     hint("Declaration of " & "Glfwerrorfun" & " already exists, not redeclaring")
 when not declared(Glfwreallocatefun):
   type
-    Glfwreallocatefun* = Glfwreallocatefun_1526736062
+    Glfwreallocatefun* = Glfwreallocatefun_1207969036
 else:
   static :
     hint("Declaration of " & "Glfwreallocatefun" &
         " already exists, not redeclaring")
 when not declared(Glfwwindowiconifyfun):
   type
-    Glfwwindowiconifyfun* = Glfwwindowiconifyfun_1526736078
+    Glfwwindowiconifyfun* = Glfwwindowiconifyfun_1207969052
 else:
   static :
     hint("Declaration of " & "Glfwwindowiconifyfun" &
         " already exists, not redeclaring")
 when not declared(Glfwwindowcontentscalefun):
   type
-    Glfwwindowcontentscalefun* = Glfwwindowcontentscalefun_1526736084
+    Glfwwindowcontentscalefun* = Glfwwindowcontentscalefun_1207969058
 else:
   static :
     hint("Declaration of " & "Glfwwindowcontentscalefun" &
         " already exists, not redeclaring")
 when not declared(Glfwcursortypedef):
   type
-    Glfwcursortypedef* = Glfwcursortypedef_1526736058
+    Glfwcursortypedef* = Glfwcursortypedef_1207969032
 else:
   static :
     hint("Declaration of " & "Glfwcursortypedef" &
         " already exists, not redeclaring")
 when not declared(Glfwvkproc):
   type
-    Glfwvkproc* = Glfwvkproc_1526736052
+    Glfwvkproc* = Glfwvkproc_1207969026
 else:
   static :
     hint("Declaration of " & "Glfwvkproc" & " already exists, not redeclaring")
 when not declared(Glfwkeyfun):
   type
-    Glfwkeyfun* = Glfwkeyfun_1526736094
+    Glfwkeyfun* = Glfwkeyfun_1207969068
 else:
   static :
     hint("Declaration of " & "Glfwkeyfun" & " already exists, not redeclaring")
 when not declared(Glfwcharfun):
   type
-    Glfwcharfun* = Glfwcharfun_1526736096
+    Glfwcharfun* = Glfwcharfun_1207969070
 else:
   static :
     hint("Declaration of " & "Glfwcharfun" & " already exists, not redeclaring")
 when not declared(Glfwwindowposfun):
   type
-    Glfwwindowposfun* = Glfwwindowposfun_1526736068
+    Glfwwindowposfun* = Glfwwindowposfun_1207969042
 else:
   static :
     hint("Declaration of " & "Glfwwindowposfun" &
         " already exists, not redeclaring")
 when not declared(structglfwimage):
   type
-    structglfwimage* = structglfwimage_1526736114
+    structglfwimage* = structglfwimage_1207969088
 else:
   static :
     hint("Declaration of " & "structglfwimage" &
         " already exists, not redeclaring")
 when not declared(Glfwmousebuttonfun):
   type
-    Glfwmousebuttonfun* = Glfwmousebuttonfun_1526736086
+    Glfwmousebuttonfun* = Glfwmousebuttonfun_1207969060
 else:
   static :
     hint("Declaration of " & "Glfwmousebuttonfun" &
         " already exists, not redeclaring")
 when not declared(Glfwframebuffersizefun):
   type
-    Glfwframebuffersizefun* = Glfwframebuffersizefun_1526736082
+    Glfwframebuffersizefun* = Glfwframebuffersizefun_1207969056
 else:
   static :
     hint("Declaration of " & "Glfwframebuffersizefun" &
@@ -3762,7 +3762,7 @@ else:
   static :
     hint("Declaration of " & "glfwinithint" & " already exists, not redeclaring")
 when not declared(glfwinitallocator):
-  proc glfwinitallocator*(allocator: ptr Glfwallocator_1526736125): void {.
+  proc glfwinitallocator*(allocator: ptr Glfwallocator_1207969099): void {.
       cdecl, importc: "glfwInitAllocator".}
 else:
   static :
@@ -3788,7 +3788,7 @@ else:
   static :
     hint("Declaration of " & "glfwgeterror" & " already exists, not redeclaring")
 when not declared(glfwseterrorcallback):
-  proc glfwseterrorcallback*(callback: Glfwerrorfun_1526736067): Glfwerrorfun_1526736067 {.
+  proc glfwseterrorcallback*(callback: Glfwerrorfun_1207969041): Glfwerrorfun_1207969041 {.
       cdecl, importc: "glfwSetErrorCallback".}
 else:
   static :
@@ -3808,21 +3808,21 @@ else:
     hint("Declaration of " & "glfwplatformsupported" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitors):
-  proc glfwgetmonitors*(count: ptr cint): ptr ptr Glfwmonitor_1526736055 {.
+  proc glfwgetmonitors*(count: ptr cint): ptr ptr Glfwmonitor_1207969029 {.
       cdecl, importc: "glfwGetMonitors".}
 else:
   static :
     hint("Declaration of " & "glfwgetmonitors" &
         " already exists, not redeclaring")
 when not declared(glfwgetprimarymonitor):
-  proc glfwgetprimarymonitor*(): ptr Glfwmonitor_1526736055 {.cdecl,
+  proc glfwgetprimarymonitor*(): ptr Glfwmonitor_1207969029 {.cdecl,
       importc: "glfwGetPrimaryMonitor".}
 else:
   static :
     hint("Declaration of " & "glfwgetprimarymonitor" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitorpos):
-  proc glfwgetmonitorpos*(monitor: ptr Glfwmonitor_1526736055; xpos: ptr cint;
+  proc glfwgetmonitorpos*(monitor: ptr Glfwmonitor_1207969029; xpos: ptr cint;
                           ypos: ptr cint): void {.cdecl,
       importc: "glfwGetMonitorPos".}
 else:
@@ -3830,7 +3830,7 @@ else:
     hint("Declaration of " & "glfwgetmonitorpos" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitorworkarea):
-  proc glfwgetmonitorworkarea*(monitor: ptr Glfwmonitor_1526736055;
+  proc glfwgetmonitorworkarea*(monitor: ptr Glfwmonitor_1207969029;
                                xpos: ptr cint; ypos: ptr cint; width: ptr cint;
                                height: ptr cint): void {.cdecl,
       importc: "glfwGetMonitorWorkarea".}
@@ -3839,7 +3839,7 @@ else:
     hint("Declaration of " & "glfwgetmonitorworkarea" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitorphysicalsize):
-  proc glfwgetmonitorphysicalsize*(monitor: ptr Glfwmonitor_1526736055;
+  proc glfwgetmonitorphysicalsize*(monitor: ptr Glfwmonitor_1207969029;
                                    widthmm: ptr cint; heightmm: ptr cint): void {.
       cdecl, importc: "glfwGetMonitorPhysicalSize".}
 else:
@@ -3847,7 +3847,7 @@ else:
     hint("Declaration of " & "glfwgetmonitorphysicalsize" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitorcontentscale):
-  proc glfwgetmonitorcontentscale*(monitor: ptr Glfwmonitor_1526736055;
+  proc glfwgetmonitorcontentscale*(monitor: ptr Glfwmonitor_1207969029;
                                    xscale: ptr cfloat; yscale: ptr cfloat): void {.
       cdecl, importc: "glfwGetMonitorContentScale".}
 else:
@@ -3855,14 +3855,14 @@ else:
     hint("Declaration of " & "glfwgetmonitorcontentscale" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitorname):
-  proc glfwgetmonitorname*(monitor: ptr Glfwmonitor_1526736055): cstring {.
+  proc glfwgetmonitorname*(monitor: ptr Glfwmonitor_1207969029): cstring {.
       cdecl, importc: "glfwGetMonitorName".}
 else:
   static :
     hint("Declaration of " & "glfwgetmonitorname" &
         " already exists, not redeclaring")
 when not declared(glfwsetmonitoruserpointer):
-  proc glfwsetmonitoruserpointer*(monitor: ptr Glfwmonitor_1526736055;
+  proc glfwsetmonitoruserpointer*(monitor: ptr Glfwmonitor_1207969029;
                                   pointer: pointer): void {.cdecl,
       importc: "glfwSetMonitorUserPointer".}
 else:
@@ -3870,49 +3870,49 @@ else:
     hint("Declaration of " & "glfwsetmonitoruserpointer" &
         " already exists, not redeclaring")
 when not declared(glfwgetmonitoruserpointer):
-  proc glfwgetmonitoruserpointer*(monitor: ptr Glfwmonitor_1526736055): pointer {.
+  proc glfwgetmonitoruserpointer*(monitor: ptr Glfwmonitor_1207969029): pointer {.
       cdecl, importc: "glfwGetMonitorUserPointer".}
 else:
   static :
     hint("Declaration of " & "glfwgetmonitoruserpointer" &
         " already exists, not redeclaring")
 when not declared(glfwsetmonitorcallback):
-  proc glfwsetmonitorcallback*(callback: Glfwmonitorfun_1526736103): Glfwmonitorfun_1526736103 {.
+  proc glfwsetmonitorcallback*(callback: Glfwmonitorfun_1207969077): Glfwmonitorfun_1207969077 {.
       cdecl, importc: "glfwSetMonitorCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetmonitorcallback" &
         " already exists, not redeclaring")
 when not declared(glfwgetvideomodes):
-  proc glfwgetvideomodes*(monitor: ptr Glfwmonitor_1526736055; count: ptr cint): ptr Glfwvidmode_1526736109 {.
+  proc glfwgetvideomodes*(monitor: ptr Glfwmonitor_1207969029; count: ptr cint): ptr Glfwvidmode_1207969083 {.
       cdecl, importc: "glfwGetVideoModes".}
 else:
   static :
     hint("Declaration of " & "glfwgetvideomodes" &
         " already exists, not redeclaring")
 when not declared(glfwgetvideomode):
-  proc glfwgetvideomode*(monitor: ptr Glfwmonitor_1526736055): ptr Glfwvidmode_1526736109 {.
+  proc glfwgetvideomode*(monitor: ptr Glfwmonitor_1207969029): ptr Glfwvidmode_1207969083 {.
       cdecl, importc: "glfwGetVideoMode".}
 else:
   static :
     hint("Declaration of " & "glfwgetvideomode" &
         " already exists, not redeclaring")
 when not declared(glfwsetgamma):
-  proc glfwsetgamma*(monitor: ptr Glfwmonitor_1526736055; gamma: cfloat): void {.
+  proc glfwsetgamma*(monitor: ptr Glfwmonitor_1207969029; gamma: cfloat): void {.
       cdecl, importc: "glfwSetGamma".}
 else:
   static :
     hint("Declaration of " & "glfwsetgamma" & " already exists, not redeclaring")
 when not declared(glfwgetgammaramp):
-  proc glfwgetgammaramp*(monitor: ptr Glfwmonitor_1526736055): ptr Glfwgammaramp_1526736113 {.
+  proc glfwgetgammaramp*(monitor: ptr Glfwmonitor_1207969029): ptr Glfwgammaramp_1207969087 {.
       cdecl, importc: "glfwGetGammaRamp".}
 else:
   static :
     hint("Declaration of " & "glfwgetgammaramp" &
         " already exists, not redeclaring")
 when not declared(glfwsetgammaramp):
-  proc glfwsetgammaramp*(monitor: ptr Glfwmonitor_1526736055;
-                         ramp: ptr Glfwgammaramp_1526736113): void {.cdecl,
+  proc glfwsetgammaramp*(monitor: ptr Glfwmonitor_1207969029;
+                         ramp: ptr Glfwgammaramp_1207969087): void {.cdecl,
       importc: "glfwSetGammaRamp".}
 else:
   static :
@@ -3941,58 +3941,58 @@ else:
         " already exists, not redeclaring")
 when not declared(glfwcreatewindow):
   proc glfwcreatewindow*(width: cint; height: cint; title: cstring;
-                         monitor: ptr Glfwmonitor_1526736055;
-                         share: ptr Glfwwindow_1526736057): ptr Glfwwindow_1526736057 {.
+                         monitor: ptr Glfwmonitor_1207969029;
+                         share: ptr Glfwwindow_1207969031): ptr Glfwwindow_1207969031 {.
       cdecl, importc: "glfwCreateWindow".}
 else:
   static :
     hint("Declaration of " & "glfwcreatewindow" &
         " already exists, not redeclaring")
 when not declared(glfwdestroywindow):
-  proc glfwdestroywindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwdestroywindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwDestroyWindow".}
 else:
   static :
     hint("Declaration of " & "glfwdestroywindow" &
         " already exists, not redeclaring")
 when not declared(glfwwindowshouldclose):
-  proc glfwwindowshouldclose*(window: ptr Glfwwindow_1526736057): cint {.cdecl,
+  proc glfwwindowshouldclose*(window: ptr Glfwwindow_1207969031): cint {.cdecl,
       importc: "glfwWindowShouldClose".}
 else:
   static :
     hint("Declaration of " & "glfwwindowshouldclose" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowshouldclose):
-  proc glfwsetwindowshouldclose*(window: ptr Glfwwindow_1526736057; value: cint): void {.
+  proc glfwsetwindowshouldclose*(window: ptr Glfwwindow_1207969031; value: cint): void {.
       cdecl, importc: "glfwSetWindowShouldClose".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowshouldclose" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowtitle):
-  proc glfwgetwindowtitle*(window: ptr Glfwwindow_1526736057): cstring {.cdecl,
+  proc glfwgetwindowtitle*(window: ptr Glfwwindow_1207969031): cstring {.cdecl,
       importc: "glfwGetWindowTitle".}
 else:
   static :
     hint("Declaration of " & "glfwgetwindowtitle" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowtitle):
-  proc glfwsetwindowtitle*(window: ptr Glfwwindow_1526736057; title: cstring): void {.
+  proc glfwsetwindowtitle*(window: ptr Glfwwindow_1207969031; title: cstring): void {.
       cdecl, importc: "glfwSetWindowTitle".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowtitle" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowicon):
-  proc glfwsetwindowicon*(window: ptr Glfwwindow_1526736057; count: cint;
-                          images: ptr Glfwimage_1526736117): void {.cdecl,
+  proc glfwsetwindowicon*(window: ptr Glfwwindow_1207969031; count: cint;
+                          images: ptr Glfwimage_1207969091): void {.cdecl,
       importc: "glfwSetWindowIcon".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowicon" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowpos):
-  proc glfwgetwindowpos*(window: ptr Glfwwindow_1526736057; xpos: ptr cint;
+  proc glfwgetwindowpos*(window: ptr Glfwwindow_1207969031; xpos: ptr cint;
                          ypos: ptr cint): void {.cdecl,
       importc: "glfwGetWindowPos".}
 else:
@@ -4000,14 +4000,14 @@ else:
     hint("Declaration of " & "glfwgetwindowpos" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowpos):
-  proc glfwsetwindowpos*(window: ptr Glfwwindow_1526736057; xpos: cint;
+  proc glfwsetwindowpos*(window: ptr Glfwwindow_1207969031; xpos: cint;
                          ypos: cint): void {.cdecl, importc: "glfwSetWindowPos".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowpos" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowsize):
-  proc glfwgetwindowsize*(window: ptr Glfwwindow_1526736057; width: ptr cint;
+  proc glfwgetwindowsize*(window: ptr Glfwwindow_1207969031; width: ptr cint;
                           height: ptr cint): void {.cdecl,
       importc: "glfwGetWindowSize".}
 else:
@@ -4015,7 +4015,7 @@ else:
     hint("Declaration of " & "glfwgetwindowsize" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowsizelimits):
-  proc glfwsetwindowsizelimits*(window: ptr Glfwwindow_1526736057;
+  proc glfwsetwindowsizelimits*(window: ptr Glfwwindow_1207969031;
                                 minwidth: cint; minheight: cint; maxwidth: cint;
                                 maxheight: cint): void {.cdecl,
       importc: "glfwSetWindowSizeLimits".}
@@ -4024,7 +4024,7 @@ else:
     hint("Declaration of " & "glfwsetwindowsizelimits" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowaspectratio):
-  proc glfwsetwindowaspectratio*(window: ptr Glfwwindow_1526736057; numer: cint;
+  proc glfwsetwindowaspectratio*(window: ptr Glfwwindow_1207969031; numer: cint;
                                  denom: cint): void {.cdecl,
       importc: "glfwSetWindowAspectRatio".}
 else:
@@ -4032,7 +4032,7 @@ else:
     hint("Declaration of " & "glfwsetwindowaspectratio" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowsize):
-  proc glfwsetwindowsize*(window: ptr Glfwwindow_1526736057; width: cint;
+  proc glfwsetwindowsize*(window: ptr Glfwwindow_1207969031; width: cint;
                           height: cint): void {.cdecl,
       importc: "glfwSetWindowSize".}
 else:
@@ -4040,7 +4040,7 @@ else:
     hint("Declaration of " & "glfwsetwindowsize" &
         " already exists, not redeclaring")
 when not declared(glfwgetframebuffersize):
-  proc glfwgetframebuffersize*(window: ptr Glfwwindow_1526736057;
+  proc glfwgetframebuffersize*(window: ptr Glfwwindow_1207969031;
                                width: ptr cint; height: ptr cint): void {.cdecl,
       importc: "glfwGetFramebufferSize".}
 else:
@@ -4048,7 +4048,7 @@ else:
     hint("Declaration of " & "glfwgetframebuffersize" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowframesize):
-  proc glfwgetwindowframesize*(window: ptr Glfwwindow_1526736057;
+  proc glfwgetwindowframesize*(window: ptr Glfwwindow_1207969031;
                                left: ptr cint; top: ptr cint; right: ptr cint;
                                bottom: ptr cint): void {.cdecl,
       importc: "glfwGetWindowFrameSize".}
@@ -4057,7 +4057,7 @@ else:
     hint("Declaration of " & "glfwgetwindowframesize" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowcontentscale):
-  proc glfwgetwindowcontentscale*(window: ptr Glfwwindow_1526736057;
+  proc glfwgetwindowcontentscale*(window: ptr Glfwwindow_1207969031;
                                   xscale: ptr cfloat; yscale: ptr cfloat): void {.
       cdecl, importc: "glfwGetWindowContentScale".}
 else:
@@ -4065,78 +4065,78 @@ else:
     hint("Declaration of " & "glfwgetwindowcontentscale" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowopacity):
-  proc glfwgetwindowopacity*(window: ptr Glfwwindow_1526736057): cfloat {.cdecl,
+  proc glfwgetwindowopacity*(window: ptr Glfwwindow_1207969031): cfloat {.cdecl,
       importc: "glfwGetWindowOpacity".}
 else:
   static :
     hint("Declaration of " & "glfwgetwindowopacity" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowopacity):
-  proc glfwsetwindowopacity*(window: ptr Glfwwindow_1526736057; opacity: cfloat): void {.
+  proc glfwsetwindowopacity*(window: ptr Glfwwindow_1207969031; opacity: cfloat): void {.
       cdecl, importc: "glfwSetWindowOpacity".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowopacity" &
         " already exists, not redeclaring")
 when not declared(glfwiconifywindow):
-  proc glfwiconifywindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwiconifywindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwIconifyWindow".}
 else:
   static :
     hint("Declaration of " & "glfwiconifywindow" &
         " already exists, not redeclaring")
 when not declared(glfwrestorewindow):
-  proc glfwrestorewindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwrestorewindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwRestoreWindow".}
 else:
   static :
     hint("Declaration of " & "glfwrestorewindow" &
         " already exists, not redeclaring")
 when not declared(glfwmaximizewindow):
-  proc glfwmaximizewindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwmaximizewindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwMaximizeWindow".}
 else:
   static :
     hint("Declaration of " & "glfwmaximizewindow" &
         " already exists, not redeclaring")
 when not declared(glfwshowwindow):
-  proc glfwshowwindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwshowwindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwShowWindow".}
 else:
   static :
     hint("Declaration of " & "glfwshowwindow" &
         " already exists, not redeclaring")
 when not declared(glfwhidewindow):
-  proc glfwhidewindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwhidewindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwHideWindow".}
 else:
   static :
     hint("Declaration of " & "glfwhidewindow" &
         " already exists, not redeclaring")
 when not declared(glfwfocuswindow):
-  proc glfwfocuswindow*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwfocuswindow*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwFocusWindow".}
 else:
   static :
     hint("Declaration of " & "glfwfocuswindow" &
         " already exists, not redeclaring")
 when not declared(glfwrequestwindowattention):
-  proc glfwrequestwindowattention*(window: ptr Glfwwindow_1526736057): void {.
+  proc glfwrequestwindowattention*(window: ptr Glfwwindow_1207969031): void {.
       cdecl, importc: "glfwRequestWindowAttention".}
 else:
   static :
     hint("Declaration of " & "glfwrequestwindowattention" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowmonitor):
-  proc glfwgetwindowmonitor*(window: ptr Glfwwindow_1526736057): ptr Glfwmonitor_1526736055 {.
+  proc glfwgetwindowmonitor*(window: ptr Glfwwindow_1207969031): ptr Glfwmonitor_1207969029 {.
       cdecl, importc: "glfwGetWindowMonitor".}
 else:
   static :
     hint("Declaration of " & "glfwgetwindowmonitor" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowmonitor):
-  proc glfwsetwindowmonitor*(window: ptr Glfwwindow_1526736057;
-                             monitor: ptr Glfwmonitor_1526736055; xpos: cint;
+  proc glfwsetwindowmonitor*(window: ptr Glfwwindow_1207969031;
+                             monitor: ptr Glfwmonitor_1207969029; xpos: cint;
                              ypos: cint; width: cint; height: cint;
                              refreshrate: cint): void {.cdecl,
       importc: "glfwSetWindowMonitor".}
@@ -4145,14 +4145,14 @@ else:
     hint("Declaration of " & "glfwsetwindowmonitor" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowattrib):
-  proc glfwgetwindowattrib*(window: ptr Glfwwindow_1526736057; attrib: cint): cint {.
+  proc glfwgetwindowattrib*(window: ptr Glfwwindow_1207969031; attrib: cint): cint {.
       cdecl, importc: "glfwGetWindowAttrib".}
 else:
   static :
     hint("Declaration of " & "glfwgetwindowattrib" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowattrib):
-  proc glfwsetwindowattrib*(window: ptr Glfwwindow_1526736057; attrib: cint;
+  proc glfwsetwindowattrib*(window: ptr Glfwwindow_1207969031; attrib: cint;
                             value: cint): void {.cdecl,
       importc: "glfwSetWindowAttrib".}
 else:
@@ -4160,7 +4160,7 @@ else:
     hint("Declaration of " & "glfwsetwindowattrib" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowuserpointer):
-  proc glfwsetwindowuserpointer*(window: ptr Glfwwindow_1526736057;
+  proc glfwsetwindowuserpointer*(window: ptr Glfwwindow_1207969031;
                                  pointer: pointer): void {.cdecl,
       importc: "glfwSetWindowUserPointer".}
 else:
@@ -4168,79 +4168,79 @@ else:
     hint("Declaration of " & "glfwsetwindowuserpointer" &
         " already exists, not redeclaring")
 when not declared(glfwgetwindowuserpointer):
-  proc glfwgetwindowuserpointer*(window: ptr Glfwwindow_1526736057): pointer {.
+  proc glfwgetwindowuserpointer*(window: ptr Glfwwindow_1207969031): pointer {.
       cdecl, importc: "glfwGetWindowUserPointer".}
 else:
   static :
     hint("Declaration of " & "glfwgetwindowuserpointer" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowposcallback):
-  proc glfwsetwindowposcallback*(window: ptr Glfwwindow_1526736057;
-                                 callback: Glfwwindowposfun_1526736069): Glfwwindowposfun_1526736069 {.
+  proc glfwsetwindowposcallback*(window: ptr Glfwwindow_1207969031;
+                                 callback: Glfwwindowposfun_1207969043): Glfwwindowposfun_1207969043 {.
       cdecl, importc: "glfwSetWindowPosCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowposcallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowsizecallback):
-  proc glfwsetwindowsizecallback*(window: ptr Glfwwindow_1526736057;
-                                  callback: Glfwwindowsizefun_1526736071): Glfwwindowsizefun_1526736071 {.
+  proc glfwsetwindowsizecallback*(window: ptr Glfwwindow_1207969031;
+                                  callback: Glfwwindowsizefun_1207969045): Glfwwindowsizefun_1207969045 {.
       cdecl, importc: "glfwSetWindowSizeCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowsizecallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowclosecallback):
-  proc glfwsetwindowclosecallback*(window: ptr Glfwwindow_1526736057;
-                                   callback: Glfwwindowclosefun_1526736073): Glfwwindowclosefun_1526736073 {.
+  proc glfwsetwindowclosecallback*(window: ptr Glfwwindow_1207969031;
+                                   callback: Glfwwindowclosefun_1207969047): Glfwwindowclosefun_1207969047 {.
       cdecl, importc: "glfwSetWindowCloseCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowclosecallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowrefreshcallback):
-  proc glfwsetwindowrefreshcallback*(window: ptr Glfwwindow_1526736057;
-                                     callback: Glfwwindowrefreshfun_1526736075): Glfwwindowrefreshfun_1526736075 {.
+  proc glfwsetwindowrefreshcallback*(window: ptr Glfwwindow_1207969031;
+                                     callback: Glfwwindowrefreshfun_1207969049): Glfwwindowrefreshfun_1207969049 {.
       cdecl, importc: "glfwSetWindowRefreshCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowrefreshcallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowfocuscallback):
-  proc glfwsetwindowfocuscallback*(window: ptr Glfwwindow_1526736057;
-                                   callback: Glfwwindowfocusfun_1526736077): Glfwwindowfocusfun_1526736077 {.
+  proc glfwsetwindowfocuscallback*(window: ptr Glfwwindow_1207969031;
+                                   callback: Glfwwindowfocusfun_1207969051): Glfwwindowfocusfun_1207969051 {.
       cdecl, importc: "glfwSetWindowFocusCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowfocuscallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowiconifycallback):
-  proc glfwsetwindowiconifycallback*(window: ptr Glfwwindow_1526736057;
-                                     callback: Glfwwindowiconifyfun_1526736079): Glfwwindowiconifyfun_1526736079 {.
+  proc glfwsetwindowiconifycallback*(window: ptr Glfwwindow_1207969031;
+                                     callback: Glfwwindowiconifyfun_1207969053): Glfwwindowiconifyfun_1207969053 {.
       cdecl, importc: "glfwSetWindowIconifyCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowiconifycallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowmaximizecallback):
-  proc glfwsetwindowmaximizecallback*(window: ptr Glfwwindow_1526736057;
-                                      callback: Glfwwindowmaximizefun_1526736081): Glfwwindowmaximizefun_1526736081 {.
+  proc glfwsetwindowmaximizecallback*(window: ptr Glfwwindow_1207969031;
+                                      callback: Glfwwindowmaximizefun_1207969055): Glfwwindowmaximizefun_1207969055 {.
       cdecl, importc: "glfwSetWindowMaximizeCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetwindowmaximizecallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetframebuffersizecallback):
-  proc glfwsetframebuffersizecallback*(window: ptr Glfwwindow_1526736057;
-                                       callback: Glfwframebuffersizefun_1526736083): Glfwframebuffersizefun_1526736083 {.
+  proc glfwsetframebuffersizecallback*(window: ptr Glfwwindow_1207969031;
+                                       callback: Glfwframebuffersizefun_1207969057): Glfwframebuffersizefun_1207969057 {.
       cdecl, importc: "glfwSetFramebufferSizeCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetframebuffersizecallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetwindowcontentscalecallback):
-  proc glfwsetwindowcontentscalecallback*(window: ptr Glfwwindow_1526736057;
-      callback: Glfwwindowcontentscalefun_1526736085): Glfwwindowcontentscalefun_1526736085 {.
+  proc glfwsetwindowcontentscalecallback*(window: ptr Glfwwindow_1207969031;
+      callback: Glfwwindowcontentscalefun_1207969059): Glfwwindowcontentscalefun_1207969059 {.
       cdecl, importc: "glfwSetWindowContentScaleCallback".}
 else:
   static :
@@ -4272,14 +4272,14 @@ else:
     hint("Declaration of " & "glfwpostemptyevent" &
         " already exists, not redeclaring")
 when not declared(glfwgetinputmode):
-  proc glfwgetinputmode*(window: ptr Glfwwindow_1526736057; mode: cint): cint {.
+  proc glfwgetinputmode*(window: ptr Glfwwindow_1207969031; mode: cint): cint {.
       cdecl, importc: "glfwGetInputMode".}
 else:
   static :
     hint("Declaration of " & "glfwgetinputmode" &
         " already exists, not redeclaring")
 when not declared(glfwsetinputmode):
-  proc glfwsetinputmode*(window: ptr Glfwwindow_1526736057; mode: cint;
+  proc glfwsetinputmode*(window: ptr Glfwwindow_1207969031; mode: cint;
                          value: cint): void {.cdecl, importc: "glfwSetInputMode".}
 else:
   static :
@@ -4307,20 +4307,20 @@ else:
     hint("Declaration of " & "glfwgetkeyscancode" &
         " already exists, not redeclaring")
 when not declared(glfwgetkey):
-  proc glfwgetkey*(window: ptr Glfwwindow_1526736057; key: cint): cint {.cdecl,
+  proc glfwgetkey*(window: ptr Glfwwindow_1207969031; key: cint): cint {.cdecl,
       importc: "glfwGetKey".}
 else:
   static :
     hint("Declaration of " & "glfwgetkey" & " already exists, not redeclaring")
 when not declared(glfwgetmousebutton):
-  proc glfwgetmousebutton*(window: ptr Glfwwindow_1526736057; button: cint): cint {.
+  proc glfwgetmousebutton*(window: ptr Glfwwindow_1207969031; button: cint): cint {.
       cdecl, importc: "glfwGetMouseButton".}
 else:
   static :
     hint("Declaration of " & "glfwgetmousebutton" &
         " already exists, not redeclaring")
 when not declared(glfwgetcursorpos):
-  proc glfwgetcursorpos*(window: ptr Glfwwindow_1526736057; xpos: ptr cdouble;
+  proc glfwgetcursorpos*(window: ptr Glfwwindow_1207969031; xpos: ptr cdouble;
                          ypos: ptr cdouble): void {.cdecl,
       importc: "glfwGetCursorPos".}
 else:
@@ -4328,7 +4328,7 @@ else:
     hint("Declaration of " & "glfwgetcursorpos" &
         " already exists, not redeclaring")
 when not declared(glfwsetcursorpos):
-  proc glfwsetcursorpos*(window: ptr Glfwwindow_1526736057; xpos: cdouble;
+  proc glfwsetcursorpos*(window: ptr Glfwwindow_1207969031; xpos: cdouble;
                          ypos: cdouble): void {.cdecl,
       importc: "glfwSetCursorPos".}
 else:
@@ -4336,93 +4336,93 @@ else:
     hint("Declaration of " & "glfwsetcursorpos" &
         " already exists, not redeclaring")
 when not declared(glfwcreatecursor):
-  proc glfwcreatecursor*(image: ptr Glfwimage_1526736117; xhot: cint; yhot: cint): ptr Glfwcursortypedef_1526736059 {.
+  proc glfwcreatecursor*(image: ptr Glfwimage_1207969091; xhot: cint; yhot: cint): ptr Glfwcursortypedef_1207969033 {.
       cdecl, importc: "glfwCreateCursor".}
 else:
   static :
     hint("Declaration of " & "glfwcreatecursor" &
         " already exists, not redeclaring")
 when not declared(glfwcreatestandardcursor):
-  proc glfwcreatestandardcursor*(shape: cint): ptr Glfwcursortypedef_1526736059 {.
+  proc glfwcreatestandardcursor*(shape: cint): ptr Glfwcursortypedef_1207969033 {.
       cdecl, importc: "glfwCreateStandardCursor".}
 else:
   static :
     hint("Declaration of " & "glfwcreatestandardcursor" &
         " already exists, not redeclaring")
 when not declared(glfwdestroycursor):
-  proc glfwdestroycursor*(cursor: ptr Glfwcursortypedef_1526736059): void {.
+  proc glfwdestroycursor*(cursor: ptr Glfwcursortypedef_1207969033): void {.
       cdecl, importc: "glfwDestroyCursor".}
 else:
   static :
     hint("Declaration of " & "glfwdestroycursor" &
         " already exists, not redeclaring")
 when not declared(glfwsetcursor):
-  proc glfwsetcursor*(window: ptr Glfwwindow_1526736057;
-                      cursor: ptr Glfwcursortypedef_1526736059): void {.cdecl,
+  proc glfwsetcursor*(window: ptr Glfwwindow_1207969031;
+                      cursor: ptr Glfwcursortypedef_1207969033): void {.cdecl,
       importc: "glfwSetCursor".}
 else:
   static :
     hint("Declaration of " & "glfwsetcursor" &
         " already exists, not redeclaring")
 when not declared(glfwsetkeycallback):
-  proc glfwsetkeycallback*(window: ptr Glfwwindow_1526736057;
-                           callback: Glfwkeyfun_1526736095): Glfwkeyfun_1526736095 {.
+  proc glfwsetkeycallback*(window: ptr Glfwwindow_1207969031;
+                           callback: Glfwkeyfun_1207969069): Glfwkeyfun_1207969069 {.
       cdecl, importc: "glfwSetKeyCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetkeycallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetcharcallback):
-  proc glfwsetcharcallback*(window: ptr Glfwwindow_1526736057;
-                            callback: Glfwcharfun_1526736097): Glfwcharfun_1526736097 {.
+  proc glfwsetcharcallback*(window: ptr Glfwwindow_1207969031;
+                            callback: Glfwcharfun_1207969071): Glfwcharfun_1207969071 {.
       cdecl, importc: "glfwSetCharCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetcharcallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetcharmodscallback):
-  proc glfwsetcharmodscallback*(window: ptr Glfwwindow_1526736057;
-                                callback: Glfwcharmodsfun_1526736099): Glfwcharmodsfun_1526736099 {.
+  proc glfwsetcharmodscallback*(window: ptr Glfwwindow_1207969031;
+                                callback: Glfwcharmodsfun_1207969073): Glfwcharmodsfun_1207969073 {.
       cdecl, importc: "glfwSetCharModsCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetcharmodscallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetmousebuttoncallback):
-  proc glfwsetmousebuttoncallback*(window: ptr Glfwwindow_1526736057;
-                                   callback: Glfwmousebuttonfun_1526736087): Glfwmousebuttonfun_1526736087 {.
+  proc glfwsetmousebuttoncallback*(window: ptr Glfwwindow_1207969031;
+                                   callback: Glfwmousebuttonfun_1207969061): Glfwmousebuttonfun_1207969061 {.
       cdecl, importc: "glfwSetMouseButtonCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetmousebuttoncallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetcursorposcallback):
-  proc glfwsetcursorposcallback*(window: ptr Glfwwindow_1526736057;
-                                 callback: Glfwcursorposfun_1526736089): Glfwcursorposfun_1526736089 {.
+  proc glfwsetcursorposcallback*(window: ptr Glfwwindow_1207969031;
+                                 callback: Glfwcursorposfun_1207969063): Glfwcursorposfun_1207969063 {.
       cdecl, importc: "glfwSetCursorPosCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetcursorposcallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetcursorentercallback):
-  proc glfwsetcursorentercallback*(window: ptr Glfwwindow_1526736057;
-                                   callback: Glfwcursorenterfun_1526736091): Glfwcursorenterfun_1526736091 {.
+  proc glfwsetcursorentercallback*(window: ptr Glfwwindow_1207969031;
+                                   callback: Glfwcursorenterfun_1207969065): Glfwcursorenterfun_1207969065 {.
       cdecl, importc: "glfwSetCursorEnterCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetcursorentercallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetscrollcallback):
-  proc glfwsetscrollcallback*(window: ptr Glfwwindow_1526736057;
-                              callback: Glfwscrollfun_1526736093): Glfwscrollfun_1526736093 {.
+  proc glfwsetscrollcallback*(window: ptr Glfwwindow_1207969031;
+                              callback: Glfwscrollfun_1207969067): Glfwscrollfun_1207969067 {.
       cdecl, importc: "glfwSetScrollCallback".}
 else:
   static :
     hint("Declaration of " & "glfwsetscrollcallback" &
         " already exists, not redeclaring")
 when not declared(glfwsetdropcallback):
-  proc glfwsetdropcallback*(window: ptr Glfwwindow_1526736057;
-                            callback: Glfwdropfun_1526736101): Glfwdropfun_1526736101 {.
+  proc glfwsetdropcallback*(window: ptr Glfwwindow_1207969031;
+                            callback: Glfwdropfun_1207969075): Glfwdropfun_1207969075 {.
       cdecl, importc: "glfwSetDropCallback".}
 else:
   static :
@@ -4492,7 +4492,7 @@ else:
     hint("Declaration of " & "glfwjoystickisgamepad" &
         " already exists, not redeclaring")
 when not declared(glfwsetjoystickcallback):
-  proc glfwsetjoystickcallback*(callback: Glfwjoystickfun_1526736105): Glfwjoystickfun_1526736105 {.
+  proc glfwsetjoystickcallback*(callback: Glfwjoystickfun_1207969079): Glfwjoystickfun_1207969079 {.
       cdecl, importc: "glfwSetJoystickCallback".}
 else:
   static :
@@ -4513,14 +4513,14 @@ else:
     hint("Declaration of " & "glfwgetgamepadname" &
         " already exists, not redeclaring")
 when not declared(glfwgetgamepadstate):
-  proc glfwgetgamepadstate*(jid: cint; state: ptr Glfwgamepadstate_1526736121): cint {.
+  proc glfwgetgamepadstate*(jid: cint; state: ptr Glfwgamepadstate_1207969095): cint {.
       cdecl, importc: "glfwGetGamepadState".}
 else:
   static :
     hint("Declaration of " & "glfwgetgamepadstate" &
         " already exists, not redeclaring")
 when not declared(glfwsetclipboardstring):
-  proc glfwsetclipboardstring*(window: ptr Glfwwindow_1526736057;
+  proc glfwsetclipboardstring*(window: ptr Glfwwindow_1207969031;
                                string: cstring): void {.cdecl,
       importc: "glfwSetClipboardString".}
 else:
@@ -4528,7 +4528,7 @@ else:
     hint("Declaration of " & "glfwsetclipboardstring" &
         " already exists, not redeclaring")
 when not declared(glfwgetclipboardstring):
-  proc glfwgetclipboardstring*(window: ptr Glfwwindow_1526736057): cstring {.
+  proc glfwgetclipboardstring*(window: ptr Glfwwindow_1207969031): cstring {.
       cdecl, importc: "glfwGetClipboardString".}
 else:
   static :
@@ -4558,21 +4558,21 @@ else:
     hint("Declaration of " & "glfwgettimerfrequency" &
         " already exists, not redeclaring")
 when not declared(glfwmakecontextcurrent):
-  proc glfwmakecontextcurrent*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwmakecontextcurrent*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwMakeContextCurrent".}
 else:
   static :
     hint("Declaration of " & "glfwmakecontextcurrent" &
         " already exists, not redeclaring")
 when not declared(glfwgetcurrentcontext):
-  proc glfwgetcurrentcontext*(): ptr Glfwwindow_1526736057 {.cdecl,
+  proc glfwgetcurrentcontext*(): ptr Glfwwindow_1207969031 {.cdecl,
       importc: "glfwGetCurrentContext".}
 else:
   static :
     hint("Declaration of " & "glfwgetcurrentcontext" &
         " already exists, not redeclaring")
 when not declared(glfwswapbuffers):
-  proc glfwswapbuffers*(window: ptr Glfwwindow_1526736057): void {.cdecl,
+  proc glfwswapbuffers*(window: ptr Glfwwindow_1207969031): void {.cdecl,
       importc: "glfwSwapBuffers".}
 else:
   static :
@@ -4593,7 +4593,7 @@ else:
     hint("Declaration of " & "glfwextensionsupported" &
         " already exists, not redeclaring")
 when not declared(glfwgetprocaddress):
-  proc glfwgetprocaddress*(procname: cstring): Glfwglproc_1526736051 {.cdecl,
+  proc glfwgetprocaddress*(procname: cstring): Glfwglproc_1207969025 {.cdecl,
       importc: "glfwGetProcAddress".}
 else:
   static :
