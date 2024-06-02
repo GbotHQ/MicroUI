@@ -22,7 +22,7 @@ proc checkClip*(ctx: Ctx, r: Rect): Clip =
 
 # drawing
 proc pushCommand*(ctx: Ctx, typ: Commands): Command = 
-  result = create CommandBase
+  result = new CommandObj
   result.typ = typ
   ctx.commandList.add result
 

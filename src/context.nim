@@ -57,7 +57,7 @@ type
     strLoc*: i32
     color*: Color
 
-  CommandBase* {.union.} = object
+  CommandObj* {.union.} = object
     typ*: Commands
     jump*: JumpCommand
     clip*: ClipCommand
@@ -65,7 +65,7 @@ type
     text*: TextCommand
     icon*: IconCommand
   
-  Command* = ptr CommandBase
+  Command* = ref CommandObj
   
   ContainerBase* = object
     head*, tail* = -1
@@ -76,7 +76,7 @@ type
   
   Container* = ptr ContainerBase
 
-  CtxBase* = object
+  CtxObj* = object
     # callbacks:
     textWidth*: proc(font: Font, str: string, len: i32): i32
     textHeight*: proc(font: Font): i32
@@ -118,7 +118,7 @@ type
     inputText* = newStringOfCap(32)
     stringBuffer* = newStringOfCap(2^16)
   
-  Ctx* = ref CtxBase
+  Ctx* = ref CtxObj
 
 template rm*(stk: typed) =
   stk.setLen stk.len - 1

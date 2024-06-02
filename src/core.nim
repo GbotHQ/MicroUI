@@ -10,7 +10,7 @@ import
 
 # context managment
 proc initCtx*(): Ctx =  
-  result = new CtxBase
+  result = new CtxObj
   result.drawFrame = drawFrame
   result.style = defaultStyle
 
